@@ -1,5 +1,12 @@
+import { Footer, Header } from "../Components/Layout";
+
+
 function App() {
-  return <div className="text-center text-success">App</div>;
+  return <div>
+    <Header/>
+    Main Component
+    <Footer/>
+  </div>;
 }
 
 export default App;
