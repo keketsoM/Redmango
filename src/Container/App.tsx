@@ -1,12 +1,14 @@
 import { Footer, Header } from "../Components/Layout";
-
+import { Home } from "../Pages";
 
 function App() {
-  return <div>
-    <Header/>
-    Main Component
-    <Footer/>
-  </div>;
+  return (
+    <div>
+      <Header />
+      <Home />
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
