@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Footer, Header } from "../Components/Layout";
-import { Home, ShoppingCart } from "../Pages";
+import { Home, MenuItemDetails, ShoppingCart } from "../Pages";
 
 function App() {
   return (
@@ -10,6 +10,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="*" element={<ShoppingCart />} />
+          <Route
+            path="/MenuItemDetails/:menuItemId"
+            element={<MenuItemDetails />}
+          />
         </Routes>
       </div>
       <Footer />

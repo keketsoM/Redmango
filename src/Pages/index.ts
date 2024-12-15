@@ -1,3 +1,4 @@
 import Home from "./Home";
 import ShoppingCart from "./NotFound";
-export { Home, ShoppingCart };
+import MenuItemDetails from "./MenuItemDetails";
+export { Home, ShoppingCart, MenuItemDetails };

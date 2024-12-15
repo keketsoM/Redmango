@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { menuItemModel } from "../../../Interface";
 interface Props {
   menuItem: menuItemModel;
@@ -11,12 +12,14 @@ function MenuItemCard(props: Props) {
       >
         <div className="card-body pt-2">
           <div className="row col-10 offset-1 p-4">
-            <img
-              src={props.menuItem.image}
-              style={{ borderRadius: "50%" }}
-              alt=""
-              className="w-100 mt-5 image-box"
-            />
+            <NavLink to={`/MenuItemDetails/${props.menuItem.id}`}>
+              <img
+                src={props.menuItem.image}
+                style={{ borderRadius: "50%" }}
+                alt=""
+                className="w-100 mt-5 image-box"
+              />
+            </NavLink>
           </div>
           {props.menuItem.specialTag.length >= 1 && (
             <i
@@ -50,8 +53,11 @@ function MenuItemCard(props: Props) {
 
           <div className="text-center">
             <p className="card-title m-0 text-success fs-3">
-              {props.menuItem.name}
+              <NavLink to={`/MenuItemDetails/${props.menuItem.id}`} style={{color:"green",textDecoration:"None"}}>
+                {props.menuItem.name}
+              </NavLink>
             </p>
+
             <p className="badge bg-secondary" style={{ fontSize: "12px" }}>
               {props.menuItem.category}
             </p>
