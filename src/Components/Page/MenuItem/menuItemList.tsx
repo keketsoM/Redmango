@@ -12,14 +12,14 @@ function MenuItemList() {
         setMeunItem(data.result);
       });
   }, []);
-  return <div className="container row">{
-    menuItem.length>0&& menuItem.map((menuItem,Index)=>{
-      return <div className="row">
-        <MenuItemCard menuItem={menuItem} key={Index}/>
-      </div>
-    })
-    
-  }</div>;
+  return (
+    <div className="container row">
+      {menuItem.length > 0 &&
+        menuItem.map((menuItem, Index) => {
+          return <MenuItemCard menuItem={menuItem} key={Index} />;
+        })}
+    </div>
+  );
 }
 
 export default MenuItemList;
