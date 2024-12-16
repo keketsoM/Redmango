@@ -1,7 +1,7 @@
 
 function ShoppingCart() {
   return (
-    <div>No Item ShoppingCart</div>
+    <div>Not Found</div>
   )
 }
 

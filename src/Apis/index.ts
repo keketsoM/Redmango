@@ -1,3 +1,3 @@
-export menuItemApi form "./MenuItemApi";
+import MeunItemApi from "./MenuItemApi"
 
-export {meunItemApi}
+export {MeunItemApi};
