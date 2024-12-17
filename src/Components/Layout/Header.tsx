@@ -1,8 +1,12 @@
 import { NavLink } from "react-router-dom";
-
+import { useGetAllShoppingCartQuery } from "../../Apis/ShoppingCartApi";
+import { MiniLoader } from "../Page/Common";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
+  const { data, isLoading } = useGetAllShoppingCartQuery("f3443504-018c-4d9d-beba-1bfebdc249a9");
+
+  console.dir(data);
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -35,9 +39,13 @@ function Header() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to={"/shoppingCart"}>
-                  
+                <NavLink
+                  className="nav-link"
+                  aria-current="page"
+                  to={"/shoppingCart"}
+                >
                   <i className="bi bi-cart4"></i>
+                  <span className="badge">{isLoading?<MiniLoader/>:data.result.cartItems.length}</span>
                 </NavLink>
               </li>
               <li className="nav-item dropdown">

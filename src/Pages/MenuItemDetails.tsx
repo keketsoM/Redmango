@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetMenuItemQuery } from "../Apis/MenuItemApi";
 import { useUpdateShoppingCartMutation } from "../Apis/ShoppingCartApi";
-import { MainLoader } from "../Components/Page/Common";
+import { MainLoader, MiniLoader } from "../Components/Page/Common";
 // userId =f3443504-018c-4d9d-beba-1bfebdc249a9
 function MenuItemDetails() {
   const { menuItemId } = useParams();
@@ -14,13 +14,13 @@ function MenuItemDetails() {
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
-    console.dir(updateQuantity)
+    console.dir(updateQuantity);
     const response = await updateShoppingCart({
       menuItemId: menuItemId,
-      updateQuantity:updateQuantity,
+      updateQuantity: updateQuantity,
       userId: "f3443504-018c-4d9d-beba-1bfebdc249a9",
     });
-    console.dir(response)
+    console.dir(response);
     setIsAddingToCart(false);
   };
 
@@ -32,7 +32,7 @@ function MenuItemDetails() {
   }
 
   if (isLoading) {
-    return <MainLoader/>;
+    return <MainLoader />;
   }
 
   return (
@@ -78,12 +78,18 @@ function MenuItemDetails() {
           </span>
           <div className="row pt-4">
             <div className="col-5">
-              <button
-                onClick={() => handleAddToCart()}
-                className="btn btn-success form-control"
-              >
-                Add to Cart
-              </button>
+              {isAddingToCart ? (
+                <button className="btn btn-success form-control">
+                  <MiniLoader />
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleAddToCart()}
+                  className="btn btn-success form-control"
+                >
+                  Add to Cart
+                </button>
+              )}
             </div>
 
             <div onClick={() => navigate(-1)} className="col-5 ">
