@@ -4,6 +4,7 @@ import { useGetAllMenuItemQuery } from "../../../Apis/MenuItemApi";
 import { menuItemModel } from "../../../Interface";
 import { setMeunItem } from "../../../Storage/Redux/menuItemSlice";
 import MenuItemCard from "./MenuItemCard";
+import { MainLoader } from "../Common";
 function MenuItemList() {
   //const [menuItem, setMeunItem] = useState<menuItemModel[]>([]);
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function MenuItemList() {
     }
   }, [isLoading]);
   if (isLoading) {
-   return <div>still Loading...</div>;
+   return <MainLoader/>;
   }
   return (
     <div className="container row">
