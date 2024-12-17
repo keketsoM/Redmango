@@ -5,21 +5,31 @@ const shoppingCartApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://localhost:44344/api/",
   }),
-  tagTypes: ["MenuItems"],
+  tagTypes: ["ShoppingCart"],
   endpoints: (builder) => ({
-    getAllMenuItem: builder.query({
-      query: () => ({
-        url: "MenuItem",
+    getAllShoppingCart: builder.query({
+      query: (userId) => ({
+        url: `ShoppingCart/${userId}`,
+        params:{
+          userId:userId
+        }
       }),
-      providesTags: ["MenuItems"],
+      providesTags: ["ShoppingCart"],
     }),
-    getMenuItem: builder.query({
-      query: (id) => ({
-        url: `MenuItem/${id}`,
+    updateShoppingCart: builder.mutation({
+      query: ({menuItemId, updateQuantity,userId}) => ({
+        url: "ShoppingCart",
+        method:"POST",
+        params:{
+          menuItemId,
+          updateQuantity,
+          userId,
+        }
       }),
-      providesTags: ["MenuItems"],
+      invalidatesTags: ["ShoppingCart"],
     }),
   }),
 });
-export const {useGetAllMenuItemQuery,useGetMenuItemQuery}=shoppingCartApi;
+export const { useGetAllShoppingCartQuery, useUpdateShoppingCartMutation } =
+  shoppingCartApi;
 export default shoppingCartApi;
