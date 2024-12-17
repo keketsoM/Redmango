@@ -53,21 +53,28 @@ function MenuItemCard(props: Props) {
               &nbsp; {props.menuItem.specialTag}
             </i>
           )}
-
-          <i
-            onClick={() => handleAddToCart()}
-            className="bi bi-cart-plus btn btn-outline-danger"
-            style={{
-              position: "absolute",
-              top: "15px",
-              right: "15px",
-              padding: "5px 10px",
-              borderRadius: "3px",
-              outline: "none !important",
-              cursor: "pointer",
-            }}
-          ></i>
-
+          {isAddingToCart ? (
+            <div style={{ position: "absolute", top: "15px", right: "15px" }}>
+              <div
+                className="spinner-border text-warning"
+                style={{ scale: "100%" }}
+              ></div>
+            </div>
+          ) : (
+            <i
+              onClick={() => handleAddToCart()}
+              className="bi bi-cart-plus btn btn-outline-danger"
+              style={{
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+                padding: "5px 10px",
+                borderRadius: "3px",
+                outline: "none !important",
+                cursor: "pointer",
+              }}
+            ></i>
+          )}
           <div className="text-center">
             <p className="card-title m-0 text-success fs-3">
               <NavLink
