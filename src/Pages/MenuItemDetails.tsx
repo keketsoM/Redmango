@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetMenuItemQuery } from "../Apis/MenuItemApi";
+import { useUpdateShoppingCartMutation } from "../Apis/ShoppingCartApi";
 // userId =f3443504-018c-4d9d-beba-1bfebdc249a9
 function MenuItemDetails() {
   const { menuItemId } = useParams();
   const { data, isLoading } = useGetMenuItemQuery(menuItemId);
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(1);
+  const [updateQuantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const [updateShoppingCart] = useUpdateShoppingCartMutation();
+
+  const handleAddToCart = async () => {
+    setIsAddingToCart(true);
+    console.dir(updateQuantity)
+    const response = await updateShoppingCart({
+      menuItemId: menuItemId,
+      updateQuantity:updateQuantity,
+      userId: "f3443504-018c-4d9d-beba-1bfebdc249a9",
+    });
+    console.dir(response)
+    setIsAddingToCart(false);
+  };
 
   function handleAddQuantity(count: number) {
-    setQuantity(quantity + count);
+    setQuantity(updateQuantity + count);
   }
   function handleMinusQuantity(count: number) {
-    quantity <= 0 ? setQuantity(0) : setQuantity(quantity - count);
+    updateQuantity <= 0 ? setQuantity(0) : setQuantity(updateQuantity - count);
   }
 
   if (isLoading) {
@@ -53,7 +68,7 @@ function MenuItemDetails() {
               className="bi bi-dash p-1"
               style={{ fontSize: "25px", cursor: "pointer" }}
             ></i>
-            <span className="h3 mt-3 px-3">{quantity}</span>
+            <span className="h3 mt-3 px-3">{updateQuantity}</span>
             <i
               onClick={() => handleAddQuantity(1)}
               className="bi bi-plus p-1"
@@ -62,7 +77,10 @@ function MenuItemDetails() {
           </span>
           <div className="row pt-4">
             <div className="col-5">
-              <button className="btn btn-success form-control">
+              <button
+                onClick={() => handleAddToCart()}
+                className="btn btn-success form-control"
+              >
                 Add to Cart
               </button>
             </div>

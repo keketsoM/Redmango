@@ -21,9 +21,9 @@ const shoppingCartApi = createApi({
         url: "ShoppingCart",
         method:"POST",
         params:{
-          menuItemId,
-          updateQuantity,
-          userId,
+          menuItemId: menuItemId,
+          updateQuantityBy: updateQuantity,
+          userId:userId,
         }
       }),
       invalidatesTags: ["ShoppingCart"],
