@@ -1,7 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { shoppingCartModel } from "../../Interface";
 
-const initialState = {
-  cartItem: [],
+const initialState:shoppingCartModel = {
+  cartItems: [],
 };
 
 export const shoppingCartSlice = createSlice({
@@ -9,9 +10,25 @@ export const shoppingCartSlice = createSlice({
   initialState: initialState,
   reducers: {
     setShoppingCart: (state, action) => {
-      state.cartItem = action.payload;
+      state.cartItems = action.payload;
+    },
+    updateQuantity: (state, action) => {
+      state.cartItems = state.cartItems?.map((item) => {
+        if (item.cartItemId === action.payload.cartItem.cartItemId) {
+          item.quantity = action.payload.quantity;
+        }
+        return item
+      });
+    },
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems?.filter((item) => {
+        if (item.cartItemId === action.payload.cartItem.cartItemId) {
+        return null;
+        }
+        return item
+      });
     },
   },
 });
-export const {setShoppingCart} = shoppingCartSlice.actions;
+export const { setShoppingCart } = shoppingCartSlice.actions;
 export const shoppingCartReducer = shoppingCartSlice.reducer;
