@@ -18,12 +18,12 @@ const shoppingCartApi = createApi({
       providesTags: ["ShoppingCart"],
     }),
     updateShoppingCart: builder.mutation({
-      query: ({menuItemId, updateQuantity,userId}) => ({
+      query: ({menuItemId, updateQuantityBy,userId}) => ({
         url: "ShoppingCart",
         method:"POST",
         params:{
           menuItemId: menuItemId,
-          updateQuantityBy: updateQuantity,
+          updateQuantityBy: updateQuantityBy,
           userId:userId,
         }
       }),

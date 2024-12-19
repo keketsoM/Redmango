@@ -18,6 +18,7 @@ function App() {
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
+  
   return (
     <div>
       <Header />

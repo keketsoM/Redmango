@@ -30,5 +30,5 @@ export const shoppingCartSlice = createSlice({
     },
   },
 });
-export const { setShoppingCart } = shoppingCartSlice.actions;
+export const { setShoppingCart,updateQuantity,removeFromCart } = shoppingCartSlice.actions;
 export const shoppingCartReducer = shoppingCartSlice.reducer;

@@ -4,7 +4,9 @@ import { MiniLoader } from "../Page/Common";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
-  const { data, isLoading } = useGetAllShoppingCartQuery("f3443504-018c-4d9d-beba-1bfebdc249a9");
+  const { data, isLoading } = useGetAllShoppingCartQuery(
+    "f3443504-018c-4d9d-beba-1bfebdc249a9"
+  );
 
   console.dir(data);
   return (
@@ -45,7 +47,15 @@ function Header() {
                   to={"/shoppingCart"}
                 >
                   <i className="bi bi-cart4"></i>
-                  <span className="badge">{isLoading?<MiniLoader/>:data.result.cartItems.length}</span>
+                  <span className="badge">
+                    {isLoading ? (
+                      <MiniLoader />
+                    ) : data == undefined || data.result.cartItems.length == null ? (
+                      0
+                    ) : (
+                      data.result.cartItems.length
+                    )}
+                  </span>
                 </NavLink>
               </li>
               <li className="nav-item dropdown">

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useUpdateShoppingCartMutation } from "../../../Apis/ShoppingCartApi";
 import { menuItemModel } from "../../../Interface";
-import { delay } from "@reduxjs/toolkit/dist/utils";
 import MiniLoader from "../Common/MiniLoader";
 interface Props {
   menuItem: menuItemModel;
@@ -16,11 +15,11 @@ function MenuItemCard(props: Props) {
 
     const response = await updateShoppingCart({
       menuItemId: props.menuItem.id,
-      updateQuantity: 1,
+      updateQuantityBy: 1,
       userId: "f3443504-018c-4d9d-beba-1bfebdc249a9",
     });
     console.dir(response);
-    
+
     setIsAddingToCart(false);
   };
   return (
@@ -58,7 +57,7 @@ function MenuItemCard(props: Props) {
           )}
           {isAddingToCart ? (
             <div style={{ position: "absolute", top: "15px", right: "15px" }}>
-             <MiniLoader/>
+              <MiniLoader />
             </div>
           ) : (
             <i
