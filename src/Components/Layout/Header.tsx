@@ -1,13 +1,17 @@
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { useGetAllShoppingCartQuery } from "../../Apis/ShoppingCartApi";
-import { MiniLoader } from "../Page/Common";
+import { cartItemModel } from "../../Interface";
+import { RootState } from "../../Storage/Redux/store";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
   const { data, isLoading } = useGetAllShoppingCartQuery(
     "f3443504-018c-4d9d-beba-1bfebdc249a9"
   );
-
+  const shoppingCartFromDb: cartItemModel[] = useSelector(
+    (state: RootState) => state.shoppingCartstore.cartItems ?? []
+  );
   console.dir(data);
   return (
     <div>
@@ -48,13 +52,9 @@ function Header() {
                 >
                   <i className="bi bi-cart4"></i>
                   <span className="badge">
-                    {isLoading ? (
-                      <MiniLoader />
-                    ) : data == undefined || data.result.cartItems.length == null ? (
-                      0
-                    ) : (
-                      data.result.cartItems.length
-                    )}
+                    {shoppingCartFromDb?.length
+                      ? `(${shoppingCartFromDb.length})`
+                      : `(${0})`}
                   </span>
                 </NavLink>
               </li>
