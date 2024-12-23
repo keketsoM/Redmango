@@ -38,7 +38,7 @@ function Header() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0 w-100">
               <li className="nav-item">
                 <NavLink className="nav-link" aria-current="page" to={"/"}>
                   Home
@@ -87,6 +87,26 @@ function Header() {
                   </li>
                 </ul>
               </li>
+              <div className="d-flex" style={{ marginLeft: "auto" }}>
+                <li className="nav-item">
+                  <button
+                    style={{ border: "none", height: "40px", width: "100px" }}
+                    className="btn btn-success btn-outline rounded-pill text-white mx-2"
+                  >
+                    Logout
+                  </button>
+                </li>
+                <li>
+                  <NavLink className="nav-link" to="/register">
+                  Register
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink  style={{ border: "none", height: "40px", width: "100px" }} className="btn btn-success btn-outline rounded-pill text-white mx-2" to="/login">
+                  Login
+                  </NavLink>
+                </li>
+              </div>
             </ul>
           </div>
         </div>

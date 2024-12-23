@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { useGetAllShoppingCartQuery } from "../Apis/ShoppingCartApi";
 import { Footer, Header } from "../Components/Layout";
-import { Home, MenuItemDetails, NotFound } from "../Pages";
+import { Home, Login, MenuItemDetails, NotFound, Register } from "../Pages";
 import ShoppingCart from "../Pages/ShoppingCart";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
 
@@ -18,7 +18,7 @@ function App() {
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
-  
+
   return (
     <div>
       <Header />
@@ -27,10 +27,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/shoppingCart" element={<ShoppingCart />} />
+
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}
           />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Register" element={<Register />} />
         </Routes>
       </div>
       <Footer />
