@@ -1,10 +1,13 @@
+import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLoginUserMutation } from "../Apis/authApi";
 import inputHelper from "../Helper/inputHelper";
-import { apiResponse } from "../Interface";
-import {SD} from "../Utility/SD"
+import { apiResponse, userModel } from "../Interface";
+import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function Login() {
   const [error, SetErrorMessage] = useState("");
+  const dispatch = useDispatch();
   const [setUserLogin] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -26,8 +29,10 @@ function Login() {
     });
     if (response.data) {
       console.log(response.data);
-      const {token}= response.data.result!;
-      localStorage.setItem("token",token);
+      const { token } = response.data.result!;
+      const { fullName, id, email, role }: userModel = jwt_decode(token);
+      localStorage.setItem("token", token);
+      dispatch(setLoggedInUser({ fullName, id, email, role }));
     } else if (response.error) {
       console.log(response.error.data.errorMessage[0]);
       SetErrorMessage(response.error.data.errorMessage[0]);
@@ -65,10 +70,7 @@ function Login() {
         </div>
 
         <div className="mt-2">
-          {
-            error && <p className="text-danger">{error}</p>
-            
-          }
+          {error && <p className="text-danger">{error}</p>}
           <button
             type="submit"
             className="btn btn-success"
