@@ -9,21 +9,20 @@ const authApi = createApi({
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: `auth/register`,
+        url: "Auth/register",
         method: "POST",
-        headers:{"Content-type":"application/json"},
+        headers: { "Content-type": "application/json", },
         body: userData,
       }),
     }),
     loginUser: builder.mutation({
       query: (userCredential) => ({
-        url: "auth/login",
+        url: "Auth/login",
         method: "POST",
         body: userCredential,
       }),
     }),
   }),
 });
-export const { useRegisterUserMutation, useLoginUserMutation } =
-  authApi;
+export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
 export default authApi;

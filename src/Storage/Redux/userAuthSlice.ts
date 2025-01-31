@@ -14,8 +14,9 @@ export const authUserSlice = createSlice({
   reducers: {
     setLoggedInUser: (state, action) => {
       state.id = action.payload.id;
-      state.fullName=action.payload.fullName;
-      state.email=action.payload.email;
+      state.fullName = action.payload.fullName;
+      state.email = action.payload.email;
+      state.role = action.payload.role;
     },
   },
 });
