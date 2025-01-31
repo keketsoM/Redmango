@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLoginUserMutation } from "../Apis/authApi";
 import inputHelper from "../Helper/inputHelper";
 import { apiResponse } from "../Interface";
+import {SD} from "../Utility/SD"
 function Login() {
   const [error, SetErrorMessage] = useState("");
   const [setUserLogin] = useLoginUserMutation();
@@ -25,7 +26,7 @@ function Login() {
     });
     if (response.data) {
       console.log(response.data);
-      const {token}= response.data.result;
+      const {token}= response.data.result!;
       localStorage.setItem("token",token);
     } else if (response.error) {
       console.log(response.error.data.errorMessage[0]);
