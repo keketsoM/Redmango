@@ -7,6 +7,7 @@ import { SD_Roles } from "../Utility/SD";
 
 function Register() {
   const [setUserRegister] = useRegisterUserMutation();
+  const [error, SetErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     UserName: "",
@@ -32,7 +33,8 @@ function Register() {
     if (response.data) {
       console.log(response.data);
     } else if (response.error) {
-      console.log(response.error.data.errorMessage[0]);
+      console.log(response.error.data.errorList[0]);
+      SetErrorMessage(response.error.data.errorList[0]);
     }
     setLoading(false);
   };
@@ -89,6 +91,7 @@ function Register() {
           </div>
         </div>
         <div className="mt-5">
+          {error && <p className="text-danger">{error}</p>}
           <button type="submit" className="btn btn-success">
             Register
           </button>
