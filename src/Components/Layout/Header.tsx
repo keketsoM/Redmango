@@ -1,8 +1,12 @@
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useGetAllShoppingCartQuery } from "../../Apis/ShoppingCartApi";
 import { cartItemModel, userModel } from "../../Interface";
 import { RootState } from "../../Storage/Redux/store";
+import {
+  emptyUserState,
+  setLoggedInUser,
+} from "../../Storage/Redux/userAuthSlice";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
@@ -12,9 +16,16 @@ function Header() {
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userData: userModel = useSelector(
     (state: RootState) => state.userAuthstore ?? []
   );
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(setLoggedInUser({ ...emptyUserState }));
+    navigate("/");
+  };
   console.dir(data);
   return (
     <div>
@@ -91,7 +102,7 @@ function Header() {
                 </ul>
               </li>
               <div className="d-flex" style={{ marginLeft: "auto" }}>
-                {userData.id && (
+                {userData.nameid && (
                   <>
                     <li className="nav-item">
                       <button
@@ -102,7 +113,7 @@ function Header() {
                           border: 0,
                         }}
                       >
-                        Welcome, {userData.fullName}
+                        Welcome, {userData.unique_name}
                       </button>
                     </li>
                     <li className="nav-item">
@@ -113,13 +124,14 @@ function Header() {
                           width: "100px",
                         }}
                         className="btn btn-success btn-outline rounded-pill text-white mx-2"
+                        onClick={handleLogout}
                       >
                         Logout
                       </button>
                     </li>
                   </>
                 )}
-                {!userData.id && (
+                {!userData.nameid && (
                   <>
                     <li>
                       <NavLink className="nav-link" to="/register">
