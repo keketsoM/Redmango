@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useRegisterUserMutation } from "../Apis/authApi";
 import inputHelper from "../Helper/inputHelper";
-
+import { useNavigate } from "react-router-dom";
+import { toastNotify } from "../Helper/Index";
 import { apiResponse } from "../Interface";
 import { SD_Roles } from "../Utility/SD";
 
 function Register() {
+  const  navigate=useNavigate();
   const [setUserRegister] = useRegisterUserMutation();
   const [error, SetErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -31,10 +33,11 @@ function Register() {
       Name: userInput.Name,
     });
     if (response.data) {
-      console.log(response.data);
+      toastNotify("Registeration successfully! Please login to continue. ");
+      navigate("/login")
     } else if (response.error) {
       console.log(response.error.data.errorList[0]);
-      SetErrorMessage(response.error.data.errorList[0]);
+      toastNotify(response.error.data.errorList[0], "error");
     }
     setLoading(false);
   };
