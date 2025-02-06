@@ -5,7 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import { useGetAllShoppingCartQuery } from "../Apis/ShoppingCartApi";
 import { Footer, Header } from "../Components/Layout";
 import { userModel } from "../Interface";
-import { Home, Login, MenuItemDetails, NotFound, Register } from "../Pages";
+import { AccessDenied, AuthenticationTest, AuthenticationTestAdmin, Home, Login, MenuItemDetails, NotFound, Register } from "../Pages";
 import ShoppingCart from "../Pages/ShoppingCart";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
@@ -37,7 +37,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/shoppingCart" element={<ShoppingCart />} />
-
+           <Route path="/AccessDenied" element={<AccessDenied/>}/>
+           <Route path="/AuthenticationTest" element={<AuthenticationTest/>}/>
+           <Route path="/AuthenticationTestAdmin" element={<AuthenticationTestAdmin/>}/>
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

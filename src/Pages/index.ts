@@ -1,7 +1,20 @@
+import AccessDenied from "./AccessDenied";
+import AuthenticationTest from "./AuthenticationTest";
+import AuthenticationTestAdmin from "./AuthenticationTestAdmin";
 import Home from "./Home";
-import NotFound from "./NotFound";
-import MenuItemDetails from "./MenuItemDetails";
-import shoppingCart from "./ShoppingCart"
 import Login from "./Login";
+import MenuItemDetails from "./MenuItemDetails";
+import NotFound from "./NotFound";
 import Register from "./Register";
-export { Home, NotFound, MenuItemDetails,shoppingCart,Login,Register };
+import shoppingCart from "./ShoppingCart";
+export {
+  AccessDenied,
+  AuthenticationTest,
+  AuthenticationTestAdmin,
+  Home,
+  Login,
+  MenuItemDetails,
+  NotFound,
+  Register,
+  shoppingCart,
+};
