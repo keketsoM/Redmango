@@ -66,9 +66,7 @@ function Header() {
                 >
                   <i className="bi bi-cart4"></i>
                   <span className="badge">
-                    {shoppingCartFromDb?.length
-                      ? `(${shoppingCartFromDb.length})`
-                      : `(${0})`}
+                    {userData.nameid && (`${shoppingCartFromDb?.length}`)}
                   </span>
                 </NavLink>
               </li>
