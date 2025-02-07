@@ -7,6 +7,8 @@ import { MainLoader } from "../Common";
 
 function CartPickUpDetails() {
   const [isloading, setloading] = useState<boolean>(false);
+
+  const userData = useSelector((state: RootState) => state.userAuthstore);
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
@@ -14,8 +16,8 @@ function CartPickUpDetails() {
   let grandTotal = 0;
   let totalItem = 0;
   const initialUserData = {
-    name: "",
-    email: "",
+    name: userData.unique_name,
+    email: userData.email,
     phoneNumber: "",
   };
 

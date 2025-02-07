@@ -66,25 +66,6 @@ function Header() {
                   </span>
                 </NavLink>
               </li>
-
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to={"/authentication"}
-                >
-                  Authantication
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to={"/authorization"}
-                >
-                  Authorization
-                </NavLink>
-              </li>
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"
