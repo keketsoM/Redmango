@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useInitialPaymentMutation } from "../../../Apis/paymentApi";
 import inputHelper from "../../../Helper/inputHelper";
-import { cartItemModel } from "../../../Interface";
+import { apiResponse, cartItemModel } from "../../../Interface";
 import { RootState } from "../../../Storage/Redux/store";
 import { MainLoader } from "../Common";
-
 function CartPickUpDetails() {
   const [isloading, setloading] = useState<boolean>(false);
-
+  const [initiatePayment] = useInitialPaymentMutation();
+  const navigate = useNavigate();
   const userData = useSelector((state: RootState) => state.userAuthstore);
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
@@ -33,6 +35,12 @@ function CartPickUpDetails() {
   const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     setloading(true);
+    const { data }: apiResponse = await initiatePayment(userData.nameid);
+    console.log(data);
+    const orderSummmary = { grandTotal, totalItem };
+    navigate("/payment", {
+      state: { apiResult: data?.result, userData, orderSummmary },
+    });
   };
   return (
     <div className="border pb-5 pt-3">
