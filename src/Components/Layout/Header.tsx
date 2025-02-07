@@ -1,18 +1,28 @@
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
-import { useGetAllShoppingCartQuery } from "../../Apis/ShoppingCartApi";
-import { cartItemModel } from "../../Interface";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { cartItemModel, userModel } from "../../Interface";
 import { RootState } from "../../Storage/Redux/store";
+import {
+  emptyUserState,
+  setLoggedInUser,
+} from "../../Storage/Redux/userAuthSlice";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
-  const { data, isLoading } = useGetAllShoppingCartQuery(
-    "f3443504-018c-4d9d-beba-1bfebdc249a9"
-  );
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
-  console.dir(data);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userData: userModel = useSelector(
+    (state: RootState) => state.userAuthstore ?? []
+  );
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    dispatch(setLoggedInUser({ ...emptyUserState }));
+    navigate("/");
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -52,10 +62,27 @@ function Header() {
                 >
                   <i className="bi bi-cart4"></i>
                   <span className="badge">
-                    {shoppingCartFromDb?.length
-                      ? `(${shoppingCartFromDb.length})`
-                      : `(${0})`}
+                    {userData.nameid && `${shoppingCartFromDb?.length}`}
                   </span>
+                </NavLink>
+              </li>
+
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link"
+                  aria-current="page"
+                  to={"/authentication"}
+                >
+                  Authantication
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link"
+                  aria-current="page"
+                  to={"/authorization"}
+                >
+                  Authorization
                 </NavLink>
               </li>
               <li className="nav-item dropdown">
@@ -88,28 +115,57 @@ function Header() {
                 </ul>
               </li>
               <div className="d-flex" style={{ marginLeft: "auto" }}>
-                <li className="nav-item">
-                  <button
-                    style={{ border: "none", height: "40px", width: "100px" }}
-                    className="btn btn-success btn-outline rounded-pill text-white mx-2"
-                  >
-                    Logout
-                  </button>
-                </li>
-                <li>
-                  <NavLink className="nav-link" to="/register">
-                    Register
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    style={{ border: "none", height: "40px", width: "100px" }}
-                    className="btn btn-success btn-outline rounded-pill text-white mx-2"
-                    to="/login"
-                  >
-                    Login
-                  </NavLink>
-                </li>
+                {userData.nameid && (
+                  <>
+                    <li className="nav-item">
+                      <button
+                        className="nav-link active"
+                        style={{
+                          cursor: "pointer",
+                          background: "transparent",
+                          border: 0,
+                        }}
+                      >
+                        Welcome, {userData.unique_name}
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        style={{
+                          border: "none",
+                          height: "40px",
+                          width: "100px",
+                        }}
+                        className="btn btn-success btn-outline rounded-pill text-white mx-2"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                )}
+                {!userData.nameid && (
+                  <>
+                    <li>
+                      <NavLink className="nav-link" to="/register">
+                        Register
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        style={{
+                          border: "none",
+                          height: "40px",
+                          width: "100px",
+                        }}
+                        className="btn btn-success btn-outline rounded-pill text-white mx-2"
+                        to="/login"
+                      >
+                        Login
+                      </NavLink>
+                    </li>
+                  </>
+                )}
               </div>
             </ul>
           </div>

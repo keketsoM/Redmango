@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRegisterUserMutation } from "../Apis/authApi";
+import { MiniLoader } from "../Components/Page/Common";
+import { toastNotify } from "../Helper/Index";
 import inputHelper from "../Helper/inputHelper";
-
 import { apiResponse } from "../Interface";
 import { SD_Roles } from "../Utility/SD";
 
 function Register() {
+  const navigate = useNavigate();
   const [setUserRegister] = useRegisterUserMutation();
+  const [error, SetErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
     UserName: "",
@@ -30,9 +34,11 @@ function Register() {
       Name: userInput.Name,
     });
     if (response.data) {
-      console.log(response.data);
+      toastNotify("Registeration successfully! Please login to continue. ");
+      navigate("/login");
     } else if (response.error) {
-      console.log(response.error.data.errorMessage[0]);
+      console.log(response.error.data.errorList[0]);
+      toastNotify(response.error.data.errorList[0], "error");
     }
     setLoading(false);
   };
@@ -89,9 +95,14 @@ function Register() {
           </div>
         </div>
         <div className="mt-5">
-          <button type="submit" className="btn btn-success">
-            Register
-          </button>
+          {error && <p className="text-danger">{error}</p>}
+          {loading ? (
+            <MiniLoader />
+          ) : (
+            <button type="submit" className="btn btn-success">
+              Register
+            </button>
+          )}
         </div>
       </form>
     </div>

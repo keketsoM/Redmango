@@ -11,6 +11,7 @@ function CartSummary() {
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
+  const userData = useSelector((state: RootState) => state.userAuthstore);
   const dispatch = useDispatch();
   if (!shoppingCartFromStore) {
     return <div>Shopping Cart Empty</div>;
@@ -26,7 +27,7 @@ function CartSummary() {
     ) {
       //remove the item
       updateShoppingCart({
-        userId: "f3443504-018c-4d9d-beba-1bfebdc249a9",
+        userId: userData.nameid,
         menuItemId: cartItem.menuItemId,
         updateQuantityBy: 0,
       });
@@ -34,7 +35,7 @@ function CartSummary() {
     } else {
       //update the quantity with the new quantity
       updateShoppingCart({
-        userId: "f3443504-018c-4d9d-beba-1bfebdc249a9",
+        userId: userData.nameid,
         menuItemId: cartItem.menuItem?.id,
         updateQuantityBy: updateQuantityBy,
       });
