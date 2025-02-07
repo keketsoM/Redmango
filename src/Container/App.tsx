@@ -1,6 +1,6 @@
 import jwt_decode from "jwt-decode";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { useGetAllShoppingCartQuery } from "../Apis/ShoppingCartApi";
 import { Footer, Header } from "../Components/Layout";
@@ -18,10 +18,13 @@ import {
 import ShoppingCart from "../Pages/ShoppingCart";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
+import { RootState } from "../Storage/Redux/store";
 function App() {
+  
   const dispatch = useDispatch();
+   const userData = useSelector((state: RootState) => state.userAuthstore);
   const { data, isLoading } = useGetAllShoppingCartQuery(
-    "f3443504-018c-4d9d-beba-1bfebdc249a9"
+    userData.nameid
   );
 
   useEffect(() => {

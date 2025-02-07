@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useGetAllShoppingCartQuery } from "../../Apis/ShoppingCartApi";
 import { cartItemModel, userModel } from "../../Interface";
 import { RootState } from "../../Storage/Redux/store";
 import {
@@ -10,9 +9,6 @@ import {
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
-  const { data, isLoading } = useGetAllShoppingCartQuery(
-    "f3443504-018c-4d9d-beba-1bfebdc249a9"
-  );
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
@@ -26,7 +22,7 @@ function Header() {
     dispatch(setLoggedInUser({ ...emptyUserState }));
     navigate("/");
   };
-  console.dir(data);
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -66,7 +62,7 @@ function Header() {
                 >
                   <i className="bi bi-cart4"></i>
                   <span className="badge">
-                    {userData.nameid && (`${shoppingCartFromDb?.length}`)}
+                    {userData.nameid && `${shoppingCartFromDb?.length}`}
                   </span>
                 </NavLink>
               </li>
