@@ -1,6 +1,6 @@
 import AccessDenied from "./AccessDenied";
 import AuthenticationTest from "./AuthenticationTest";
-import AuthenticationTestAdmin from "./AuthenticationTestAdmin";
+import AuthorizationTestAdmin from "./AuthorizationTestAdmin";
 import Home from "./Home";
 import Login from "./Login";
 import MenuItemDetails from "./MenuItemDetails";
@@ -10,7 +10,7 @@ import shoppingCart from "./ShoppingCart";
 export {
   AccessDenied,
   AuthenticationTest,
-  AuthenticationTestAdmin,
+  AuthorizationTestAdmin,
   Home,
   Login,
   MenuItemDetails,

@@ -77,7 +77,7 @@ function Header() {
                 <NavLink
                   className="nav-link"
                   aria-current="page"
-                  to={"/shoppingCart"}
+                  to={"/authentication"}
                 >
                   Authantication
                 </NavLink>
@@ -86,7 +86,7 @@ function Header() {
                 <NavLink
                   className="nav-link"
                   aria-current="page"
-                  to={"/shoppingCart"}
+                  to={"/authorization"}
                 >
                   Authorization
                 </NavLink>

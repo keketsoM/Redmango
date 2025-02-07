@@ -1,9 +1,5 @@
-import React from 'react'
-
 function AuthenticationTest() {
-  return (
-    <div>This page can be accessed by any logged in user</div>
-  )
+  return <div>This page can be accessed by any logged in user</div>;
 }
 
-export default AuthenticationTest
+export default AuthenticationTest;
