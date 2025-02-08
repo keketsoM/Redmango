@@ -32,14 +32,15 @@ function CartPickUpDetails() {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault();
     setloading(true);
+    
     const { data }: apiResponse = await initiatePayment(userData.nameid);
-    console.log(data);
-    const orderSummmary = { grandTotal, totalItem };
+   
     navigate("/payment", {
-      state: { apiResult: data?.result, userData, orderSummmary },
+      state: { apiResult: data?.result, userInput },
     });
   };
   return (
@@ -48,7 +49,7 @@ function CartPickUpDetails() {
         Pickup Details
       </h1>
       <hr />
-      <form className="col-10 mx-auto" onSubmit={() => handleSubmit}>
+      <form className="col-10 mx-auto" method="Post" onSubmit={handleSubmit}>
         <div className="form-group mt-3">
           Pickup Name
           <input

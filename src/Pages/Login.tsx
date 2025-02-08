@@ -24,7 +24,7 @@ function Login() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("handleSubmit triggered");
+   
     e.preventDefault();
     setLoading(true);
     const response: apiResponse = await setUserLogin({
@@ -32,16 +32,16 @@ function Login() {
       Password: userInput.Password,
     });
     if (response.data) {
-      console.log(response.data);
+    
       const { token } = response.data.result!;
 
       const { unique_name, nameid, email, role }: userModel = jwt_decode(token);
-      console.log(unique_name + nameid + email + role + "extracted value");
+     
       localStorage.setItem("token", token);
       dispatch(setLoggedInUser({ unique_name, nameid, email, role }));
       navigate("/");
     } else if (response.error) {
-      console.log(response.error.data.errorMessage[0]);
+     
       SetErrorMessage(response.error.data.errorMessage[0]);
     }
     setLoading(false);

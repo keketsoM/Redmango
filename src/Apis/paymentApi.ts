@@ -8,11 +8,11 @@ const paymentApi = createApi({
 
   endpoints: (builder) => ({
     initialPayment: builder.mutation({
-      query: (nameId) => ({
-        url: "/payment",
+      query: (userId) => ({
+        url: "/Payment",
         method: "POST",
         params: {
-          userId: nameId,
+          userId: userId,
         },
       }),
     }),
