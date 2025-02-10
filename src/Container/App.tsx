@@ -13,6 +13,7 @@ import {
   Login,
   MenuItemDetails,
   NotFound,
+  Payments,
   Register,
 } from "../Pages";
 import ShoppingCart from "../Pages/ShoppingCart";
@@ -52,6 +53,7 @@ function App() {
           <Route path="/AccessDenied" element={<AccessDenied />} />
           <Route path="/Authentication" element={<AuthenticationTest />} />
           <Route path="/Authorization" element={<AuthorizationTestAdmin />} />
+          <Route path="/Payment" element={<Payments/>} />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

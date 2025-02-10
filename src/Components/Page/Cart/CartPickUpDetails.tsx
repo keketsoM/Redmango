@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useInitialPaymentMutation } from "../../../Apis/paymentApi";
 import inputHelper from "../../../Helper/inputHelper";
-import { cartItemModel } from "../../../Interface";
+import { apiResponse, cartItemModel } from "../../../Interface";
 import { RootState } from "../../../Storage/Redux/store";
 import { MainLoader } from "../Common";
-
 function CartPickUpDetails() {
   const [isloading, setloading] = useState<boolean>(false);
+  const [initiatePayment] = useInitialPaymentMutation();
+  const navigate = useNavigate();
+  const userData = useSelector((state: RootState) => state.userAuthstore);
   const shoppingCartFromDb: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartstore.cartItems ?? []
   );
@@ -14,8 +18,8 @@ function CartPickUpDetails() {
   let grandTotal = 0;
   let totalItem = 0;
   const initialUserData = {
-    name: "",
-    email: "",
+    name: userData.unique_name,
+    email: userData.email,
     phoneNumber: "",
   };
 
@@ -28,9 +32,16 @@ function CartPickUpDetails() {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault();
     setloading(true);
+    
+    const { data }: apiResponse = await initiatePayment(userData.nameid);
+   
+    navigate("/payment", {
+      state: { apiResult: data?.result, userInput },
+    });
   };
   return (
     <div className="border pb-5 pt-3">
@@ -38,7 +49,7 @@ function CartPickUpDetails() {
         Pickup Details
       </h1>
       <hr />
-      <form className="col-10 mx-auto" onSubmit={() => handleSubmit}>
+      <form className="col-10 mx-auto" method="Post" onSubmit={handleSubmit}>
         <div className="form-group mt-3">
           Pickup Name
           <input
