@@ -1,10 +1,10 @@
-import { shoppingCartModel } from "../../../Interface";
+import { cartItemModel } from "../../../Interface";
 
 export interface OrderSummaryProps {
   data: {
-    id: number;
-    cartItem: shoppingCartModel[];
-    cartTotal: number;
+    id?: number;
+    cartItems: cartItemModel[];
+    cartTotal?: number;
   };
   userInput: {
     name: string;
