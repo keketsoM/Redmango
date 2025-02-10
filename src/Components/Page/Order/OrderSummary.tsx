@@ -18,7 +18,7 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
           <div className="p-3">
             {data.cartItems.map((cartItems: cartItemModel, index: number) => {
               return (
-                <div className="d-flex">
+                <div className="d-flex" key={index}>
                   <div className="d-flex w-100 justify-content-between">
                     <p>{cartItems.menuItem?.name}</p>
                     <p>
