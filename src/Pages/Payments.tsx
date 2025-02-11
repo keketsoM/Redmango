@@ -1,8 +1,10 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
-import OrderSummary from "../Components/Page/Order/OrderSummary";
-import PaymentForm from "../Components/Page/Payment/PaymentForm";
+
+import { PaymentForm } from "../Components/Page/Payment/Index";
+import { OrderSummary } from "../Components/Page/Order/Index";
+
 
 function Payments() {
   const {
