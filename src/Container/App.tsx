@@ -12,6 +12,7 @@ import {
   Home,
   Login,
   MenuItemDetails,
+  MyOrders,
   NotFound,
   OrderConfirmed,
   Payments,
@@ -51,10 +52,15 @@ function App() {
           <Route path="/AccessDenied" element={<AccessDenied />} />
           <Route path="/Authentication" element={<AuthenticationTest />} />
           <Route path="/Authorization" element={<AuthorizationTestAdmin />} />
+          
           <Route path="/Payment" element={<Payments />} />
           <Route
             path="/Order/orderconfirmed/:id"
             element={<OrderConfirmed />}
+          />
+          <Route
+            path="/Order/MyOrders/:id"
+            element={<MyOrders />}
           />
           <Route
             path="/MenuItemDetails/:menuItemId"
