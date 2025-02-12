@@ -5,36 +5,38 @@ const orderApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://localhost:44344/api/",
   }),
-
+  tagTypes: ["Orders"],
   endpoints: (builder) => ({
     GetAllOrder: builder.query({
       query: (userId) => ({
         url: "/Order",
         method: "GET",
-        params:{
-          userId:userId
-        }
+        params: {
+          userId: userId,
+        },
       }),
+      providesTags:["Orders"],
+    }),
+    GetOrderDetails: builder.query({
+      query: (orderId) => ({
+        url: `/Order/${orderId}`,
+        method: "GET",
+        params: {
+          orderId: orderId,
+          // orderHeaderId:orderHeaderId
+        },
+      }),
+      providesTags:["Orders"],
     }),
     CreateOrder: builder.mutation({
       query: (orderDetails) => ({
         url: "/Order",
         method: "POST",
-        headers: { "Content-type": "application/json", },
-        body:orderDetails
-        
+        headers: { "Content-type": "application/json" },
+        body: orderDetails,
       }),
     }),
-    GetAllOrderById: builder.mutation({
-      query: (orderId) => ({
-        url: `/Order/${orderId}`,
-        method: "GET",
-       params:{
-        orderId:orderId,
-        // orderHeaderId:orderHeaderId
-       }
-      }),
-    }),
+   
     updateOrder: builder.mutation({
       query: (orderId) => ({
         url: `/Order/${orderId}`,
@@ -46,5 +48,5 @@ const orderApi = createApi({
     }),
   }),
 });
-export const { useCreateOrderMutation } = orderApi;
+export const { useGetAllOrderQuery,useGetOrderDetailsQuery,useCreateOrderMutation } = orderApi;
 export default orderApi;
