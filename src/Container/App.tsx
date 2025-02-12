@@ -13,20 +13,18 @@ import {
   Login,
   MenuItemDetails,
   NotFound,
+  OrderConfirmed,
   Payments,
   Register,
 } from "../Pages";
 import ShoppingCart from "../Pages/ShoppingCart";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
-import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 import { RootState } from "../Storage/Redux/store";
+import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function App() {
-  
   const dispatch = useDispatch();
-   const userData = useSelector((state: RootState) => state.userAuthstore);
-  const { data, isLoading } = useGetAllShoppingCartQuery(
-    userData.nameid
-  );
+  const userData = useSelector((state: RootState) => state.userAuthstore);
+  const { data, isLoading } = useGetAllShoppingCartQuery(userData.nameid);
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -53,7 +51,11 @@ function App() {
           <Route path="/AccessDenied" element={<AccessDenied />} />
           <Route path="/Authentication" element={<AuthenticationTest />} />
           <Route path="/Authorization" element={<AuthorizationTestAdmin />} />
-          <Route path="/Payment" element={<Payments/>} />
+          <Route path="/Payment" element={<Payments />} />
+          <Route
+            path="/Order/orderconfirmed/:id"
+            element={<OrderConfirmed />}
+          />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

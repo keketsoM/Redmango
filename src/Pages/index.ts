@@ -8,6 +8,7 @@ import NotFound from "./NotFound";
 import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
+import OrderConfirmed from "./Order/OrderConfirmed";
 export {
   AccessDenied,
   AuthenticationTest,
@@ -19,4 +20,5 @@ export {
   Payments,
   Register,
   shoppingCart,
+  OrderConfirmed,
 };
