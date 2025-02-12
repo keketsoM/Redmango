@@ -4,6 +4,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useCreateOrderMutation } from "../../../Apis/orderApi";
 import toastNotify from "../../../Helper/toastNotify";
 import { apiResponse, cartItemModel } from "../../../Interface";
@@ -12,7 +13,7 @@ import { OrderSummaryProps } from "../Order/OrderSummaryProps";
 
 const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
   const [isProcessing, setProcessing] = useState(false);
-
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
   const [createOrder] = useCreateOrderMutation();
@@ -92,7 +93,18 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
         totalItems: totalItems,
         orderDetailsDTO: orderDetailsDTO,
       });
+      if (respone) {
+        if (respone.data?.result!.status === SD_Status.CONFIRMED) {
+          navigate(
+            `/order/orderConfirmed/${respone.data.result.orderHeaderId}`
+          );
+        } else {
+          navigate("/failed");
+        }
+      }
+      
     }
+    setProcessing(false);
   };
   return (
     <form onSubmit={handleSubmit}>
