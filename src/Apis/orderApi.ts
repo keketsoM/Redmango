@@ -16,7 +16,7 @@ const orderApi = createApi({
         }
       }),
     }),
-    GetOrderById: builder.mutation({
+    CreateOrder: builder.mutation({
       query: (orderDetails) => ({
         url: "/Order",
         method: "POST",
@@ -46,5 +46,5 @@ const orderApi = createApi({
     }),
   }),
 });
-export const { useGetOrderByIdMutation } = orderApi;
+export const { useCreateOrderMutation } = orderApi;
 export default orderApi;

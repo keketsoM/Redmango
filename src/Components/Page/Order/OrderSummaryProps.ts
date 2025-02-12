@@ -5,6 +5,9 @@ export interface OrderSummaryProps {
     id?: number;
     cartItems: cartItemModel[];
     cartTotal?: number;
+    userId?:string;
+    stripePaymentIntentId:string;
+    
   };
   userInput: {
     name: string;

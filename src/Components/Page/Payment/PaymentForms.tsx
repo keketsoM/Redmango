@@ -4,8 +4,10 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
+import { useCreateOrderMutation } from "../../../Apis/orderApi";
 import toastNotify from "../../../Helper/toastNotify";
-import { cartItemModel } from "../../../Interface";
+import { apiResponse, cartItemModel } from "../../../Interface";
+import { SD_Status } from "../../../Utility/SD";
 import { OrderSummaryProps } from "../Order/OrderSummaryProps";
 
 const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
@@ -13,7 +15,7 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
 
   const stripe = useStripe();
   const elements = useElements();
-
+  const [createOrder] = useCreateOrderMutation();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // We don't want to let default form submission happen here,
     // which would refresh the page.
@@ -63,6 +65,8 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
       //     }
       //   ]
       // }
+      let grandTotal = 0;
+      let totalItems = 0;
       const orderDetailsDTO: any = [];
       data.cartItems.forEach((item: cartItemModel) => {
         const temOrderDetail: any = {};
@@ -71,6 +75,22 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
         temOrderDetail["itemName"] = item.menuItem?.name;
         temOrderDetail["price"] = item.menuItem?.price;
         orderDetailsDTO.push(temOrderDetail);
+        grandTotal += item.quantity! * item.menuItem?.price!;
+        totalItems += item.quantity!;
+      });
+      const respone: apiResponse = await createOrder({
+        pickupName: userInput.name,
+        pickupPhoneNumber: userInput.phoneNumber,
+        pickupEmail: userInput.email,
+        applicationUserId: data.userId,
+        orderTotal: grandTotal,
+        status:
+          result.paymentIntent.status === "succeeded"
+            ? SD_Status.CONFIRMED
+            : SD_Status.PENDING,
+        stripePaymentIntentID: data.stripePaymentIntentId,
+        totalItems: totalItems,
+        orderDetailsDTO: orderDetailsDTO,
       });
     }
   };
