@@ -27,13 +27,13 @@ function MyOrders() {
             {data.result.map((orderItem: OrderHeader) => {
               return (
                 <div className="row border" key={orderItem.orderHeaderId}>
-                  <div className="col-1">{orderItem.applicationUserId}</div>
+                  <div className="col-1">{orderItem.orderHeaderId}</div>
                   <div className="col-3">{orderItem.pickupName}</div>
                   <div className="col-2">{orderItem.pickupPhoneNumber}</div>
                   <div className="col-1">
                     $ {orderItem.orderTotal?.toFixed(2)}
                   </div>
-                  <div className="col-1"># {orderItem.totalItems}</div>
+                  <div className="col-1">{orderItem.totalItems}</div>
                   <div className="col-2">
                     {new Date(orderItem.orderDate!).toLocaleDateString()}
                   </div>
