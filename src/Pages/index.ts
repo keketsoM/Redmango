@@ -10,6 +10,7 @@ import OrderConfirmed from "./Order/OrderConfirmed";
 import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
+
 export {
   AccessDenied,
   AuthenticationTest,

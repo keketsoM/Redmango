@@ -9,7 +9,7 @@ const orderApi = createApi({
   endpoints: (builder) => ({
     GetAllOrder: builder.query({
       query: (userId) => ({
-        url: "/Order",
+        url: "Order",
         method: "GET",
         params: {
           userId: userId,
@@ -19,7 +19,7 @@ const orderApi = createApi({
     }),
     GetOrderDetails: builder.query({
       query: (orderId) => ({
-        url: `/Order/${orderId}`,
+        url: `Order/${orderId}`,
         method: "GET",
         params: {
           orderId: orderId,
@@ -29,17 +29,18 @@ const orderApi = createApi({
       providesTags:["Orders"],
     }),
     CreateOrder: builder.mutation({
-      query: (orderDetails) => ({
-        url: "/Order",
+      query: (orderHeaderCreateDTO) => ({
+        url: "Order",
         method: "POST",
         headers: { "Content-type": "application/json" },
-        body: orderDetails,
+        body: orderHeaderCreateDTO,
       }),
+      invalidatesTags: ["Orders"],
     }),
    
     updateOrder: builder.mutation({
       query: (orderId) => ({
-        url: `/Order/${orderId}`,
+        url: `Order/${orderId}`,
         method: "PUT",
         params: {
           orderId: orderId,

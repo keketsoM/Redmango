@@ -4,7 +4,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useCreateOrderMutation } from "../../../Apis/orderApi";
 import toastNotify from "../../../Helper/toastNotify";
 import { apiResponse, cartItemModel } from "../../../Interface";
@@ -91,7 +91,7 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
             : SD_Status.PENDING,
         stripePaymentIntentID: data.stripePaymentIntentId,
         totalItems: totalItems,
-        orderDetailsDTO: orderDetailsDTO,
+        orderDetailCreateDTO: orderDetailsDTO,
       });
       if (respone) {
         if (respone.data?.result!.status === SD_Status.CONFIRMED) {
@@ -99,6 +99,7 @@ const PaymentForms = ({ data, userInput }: OrderSummaryProps) => {
             `/order/orderConfirmed/${respone.data.result.orderHeaderId}`
           );
         } else {
+          console.log("Failed");
           navigate("/failed");
         }
       }
