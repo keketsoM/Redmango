@@ -1,2 +1,3 @@
+import OrderList from "./OrderList";
 import OrderSummary from "./OrderSummary";
-export { OrderSummary };
+export { OrderList, OrderSummary };

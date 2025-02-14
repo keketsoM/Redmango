@@ -1,9 +1,9 @@
-import menuItemModel from "./menuItemModule";
+import menuItemModel from "./menuItemModel";
 
 export default interface cartItemModel {
   cartItemId?: number;
   quantity?: number;
-  shoppingCartId?:number;
+  shoppingCartId?: number;
   menuItemId?: number;
   menuItem?: menuItemModel;
 }
