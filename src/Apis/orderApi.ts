@@ -15,18 +15,17 @@ const orderApi = createApi({
           userId: userId,
         },
       }),
-      providesTags:["Orders"],
+      providesTags: ["Orders"],
     }),
     GetOrderDetails: builder.query({
-      query: (orderId) => ({
-        url: `Order/${orderId}`,
+      query: (orderHeaderId) => ({
+        url: `Order/${orderHeaderId}`,
         method: "GET",
         params: {
-          orderId: orderId,
-          // orderHeaderId:orderHeaderId
+          orderHeaderId: orderHeaderId,
         },
       }),
-      providesTags:["Orders"],
+      providesTags: ["Orders"],
     }),
     CreateOrder: builder.mutation({
       query: (orderHeaderCreateDTO) => ({
@@ -37,7 +36,7 @@ const orderApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
-   
+
     updateOrder: builder.mutation({
       query: (orderId) => ({
         url: `Order/${orderId}`,
@@ -49,5 +48,9 @@ const orderApi = createApi({
     }),
   }),
 });
-export const { useGetAllOrderQuery,useGetOrderDetailsQuery,useCreateOrderMutation } = orderApi;
+export const {
+  useGetAllOrderQuery,
+  useGetOrderDetailsQuery,
+  useCreateOrderMutation,
+} = orderApi;
 export default orderApi;

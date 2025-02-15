@@ -8,12 +8,14 @@ function MyOrders() {
   const userId = useSelector((state: RootState) => state.userAuthstore.nameid);
   const { data, isLoading } = useGetAllOrderQuery(userId);
   console.log(data);
-  return(
+  return (
     <>
-  {isLoading && <MainLoader/>}
-   {!isLoading && 
-  <OrderList isLoading={isLoading} orderData={data.result} />}
-  </>
+      {isLoading && <MainLoader />}
+      {!isLoading && (
+        <OrderList isLoading={isLoading} orderData={data.result} />
+      )}
+    </>
+  );
 }
 
 export default withAuth(MyOrders);

@@ -15,6 +15,7 @@ import {
   MyOrders,
   NotFound,
   OrderConfirmed,
+  OrderDetails,
   Payments,
   Register,
 } from "../Pages";
@@ -58,6 +59,7 @@ function App() {
             path="/Order/orderconfirmed/:id"
             element={<OrderConfirmed />}
           />
+          <Route path="/Order/orderDetails/:id" element={<OrderDetails />} />
           <Route path="/Order/MyOrders" element={<MyOrders />} />
           <Route
             path="/MenuItemDetails/:menuItemId"

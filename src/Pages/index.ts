@@ -10,8 +10,9 @@ import OrderConfirmed from "./Order/OrderConfirmed";
 import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
-
+import OrderDetails from "./Order/OrderDetails";
 export {
+  OrderDetails,
   AccessDenied,
   AuthenticationTest,
   AuthorizationTestAdmin,
