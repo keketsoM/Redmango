@@ -7,7 +7,6 @@ function OrderDetails() {
   let userInput, OrderDetails;
   if (!isLoading && data.result) {
     console.log(data);
-
     userInput = {
       name: data.result[0].pickupName,
       email: data.result[0].pickupEmail,
@@ -16,8 +15,8 @@ function OrderDetails() {
 
     OrderDetails = {
       id: data.result[0].orderHeaderId,
-      cartItems: data.result[0].cartItem,
-      cartTotal: data.result[0].cartTotal,
+      cartItems: data.result[0].orderDetails,
+      cartTotal: data.result[0].orderTotal,
       status: data.result[0].status,
     };
   }

@@ -6,6 +6,7 @@ import {
   emptyUserState,
   setLoggedInUser,
 } from "../../Storage/Redux/userAuthSlice";
+import { SD_Roles } from "../../Utility/SD";
 let logo = require("../../Assets/Images/mango.png");
 
 function Header() {
@@ -54,15 +55,56 @@ function Header() {
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to={"/Order/MyOrders"}
-                >
-                  Orders
-                </NavLink>
-              </li>
+
+              {userData.role == SD_Roles.ADMIN ? (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Admin Panel
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <NavLink
+                        style={{ cursor: "pointer" }}
+                        className="dropdown-item"
+                        to={"/Order/MyOrders"}
+                      >
+                       My Orders
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        style={{ cursor: "pointer" }}
+                        className="dropdown-item"
+                        to={"/Order/AllOrders"}
+                      >
+                       All Orders
+                      </NavLink>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    aria-current="page"
+                    to={"/Order/MyOrders"}
+                  >
+                    Orders
+                  </NavLink>
+                </li>
+              )}
+
               <li className="nav-item">
                 <NavLink
                   className="nav-link"
@@ -74,35 +116,6 @@ function Header() {
                     {userData.nameid && `${shoppingCartFromDb?.length}`}
                   </span>
                 </NavLink>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Admin Panel
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
               </li>
               <div className="d-flex" style={{ marginLeft: "auto" }}>
                 {userData.nameid && (
