@@ -1,14 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import { getStatusColour } from "../../../Helper/Index";
 import { cartItemModel } from "../../../Interface";
 import { OrderSummaryProps } from "./OrderSummaryProps";
-
 function OrderSummary({ data, userInput }: OrderSummaryProps) {
-  console.log(data);
-  console.log(userInput);
-  console.log(data.cartItems);
+  const badgeTypeColour = getStatusColour(data.status!);
+  const navigate = useNavigate();
   return (
     <div>
       {" "}
-      <h3 className="text-success">Order Summary</h3>
+      <div className="d-flex justify-content-between align-items-center">
+        <h3 className="text-success">Order Summary</h3>
+        <span className={`btn btn-outline-${badgeTypeColour} fs-6`}>
+          {data.status}
+        </span>
+      </div>
       <div className="mt-3">
         <div className="border py-3 px-2">Name : {userInput.name} </div>
         <div className="border py-3 px-2">Email : {userInput.email} </div>
@@ -40,6 +45,11 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
             </h4>
           </div>
         </div>
+      </div>
+      <div className="d-flex justify-content-between align-items-center mt-3">
+        <button className="btn btn-secondary" onClick={() => navigate(-1)}>
+          Back to Orders
+        </button>
       </div>
     </div>
   );
