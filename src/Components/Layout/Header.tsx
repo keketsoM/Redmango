@@ -72,9 +72,18 @@ function Header() {
                       <NavLink
                         style={{ cursor: "pointer" }}
                         className="dropdown-item"
+                        to={"/MenuItem/MenuItemList"}
+                      >
+                        MenuItem
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        style={{ cursor: "pointer" }}
+                        className="dropdown-item"
                         to={"/Order/MyOrders"}
                       >
-                       My Orders
+                        My Orders
                       </NavLink>
                     </li>
                     <li>
@@ -83,7 +92,7 @@ function Header() {
                         className="dropdown-item"
                         to={"/Order/AllOrders"}
                       >
-                       All Orders
+                        All Orders
                       </NavLink>
                     </li>
                     <li>

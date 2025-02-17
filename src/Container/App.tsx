@@ -13,6 +13,7 @@ import {
   Home,
   Login,
   MenuItemDetails,
+  MenuItemList,
   MyOrders,
   NotFound,
   OrderConfirmed,
@@ -64,6 +65,7 @@ function App() {
           <Route path="/Order/orderDetails/:id" element={<OrderDetails />} />
           <Route path="/Order/MyOrders" element={<MyOrders />} />
           <Route path="/Order/AllOrders" element={<AllOrders/>} />
+          <Route path="/MenuItem/MenuItemList" element={<MenuItemList/>} />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

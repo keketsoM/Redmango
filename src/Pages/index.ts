@@ -12,7 +12,9 @@ import OrderDetails from "./Order/OrderDetails";
 import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
+import MenuItemList from "./MenuItem/MenuItemList";
 export {
+  MenuItemList,
   AccessDenied,
   AllOrders,
   AuthenticationTest,
