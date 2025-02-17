@@ -7,6 +7,7 @@ import { Footer, Header } from "../Components/Layout";
 import { userModel } from "../Interface";
 import {
   AccessDenied,
+  AllOrders,
   AuthenticationTest,
   AuthorizationTestAdmin,
   Home,
@@ -26,6 +27,7 @@ import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function App() {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.userAuthstore);
+  
   const { data, isLoading } = useGetAllShoppingCartQuery(userData.nameid);
 
   useEffect(() => {
@@ -61,6 +63,7 @@ function App() {
           />
           <Route path="/Order/orderDetails/:id" element={<OrderDetails />} />
           <Route path="/Order/MyOrders" element={<MyOrders />} />
+          <Route path="/Order/AllOrders" element={<AllOrders/>} />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

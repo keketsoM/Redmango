@@ -28,12 +28,12 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
     console.log(data);
     SetIsLoading(true);
     console.log("Sending PUT request...");
-   var response = await UpdateOrderHeader({
+    var response = await UpdateOrderHeader({
       orderHeaderId: data.id,
       pickupName: "",
       pickupEmail: "",
       pickupPhoneNumber: "",
-      stripePaymentIntentID:"",
+      stripePaymentIntentID: "",
       status: nextStatus.value,
     });
     console.log(response);
@@ -46,7 +46,7 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
       pickupName: "",
       pickupEmail: "",
       pickupPhoneNumber: "",
-      stripePaymentIntentID:"",
+      stripePaymentIntentID: "",
       status: SD_Status.CANCELLED,
     });
     SetIsLoading(false);
@@ -104,18 +104,24 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
             </button>
             {userData.role === SD_Roles.ADMIN && (
               <div>
-                <button
-                  onClick={() => handleCancel()}
-                  className="btn btn-danger mx-2"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => handleNextStatus()}
-                  className={`btn btn-${nextStatus.color}`}
-                >
-                  {nextStatus.value}
-                </button>
+                {data.status !== SD_Status.CANCELLED &&
+                  data.status !== SD_Status.COMPLETED && (
+                    <>
+                      <button
+                        onClick={() => handleCancel()}
+                        className="btn btn-danger mx-2"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        onClick={() => handleNextStatus()}
+                        className={`btn btn-${nextStatus.color}`}
+                      >
+                        {nextStatus.value}
+                      </button>
+                    </>
+                  )}
               </div>
             )}
           </div>

@@ -5,15 +5,16 @@ import Home from "./Home";
 import Login from "./Login";
 import MenuItemDetails from "./MenuItemDetails";
 import NotFound from "./NotFound";
+import AllOrders from "./Order/AllOrders";
 import MyOrders from "./Order/MyOrders";
 import OrderConfirmed from "./Order/OrderConfirmed";
+import OrderDetails from "./Order/OrderDetails";
 import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
-import OrderDetails from "./Order/OrderDetails";
 export {
-  OrderDetails,
   AccessDenied,
+  AllOrders,
   AuthenticationTest,
   AuthorizationTestAdmin,
   Home,
@@ -22,6 +23,7 @@ export {
   MyOrders,
   NotFound,
   OrderConfirmed,
+  OrderDetails,
   Payments,
   Register,
   shoppingCart,
