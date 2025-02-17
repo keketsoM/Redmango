@@ -1,8 +1,9 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
-import OrderSummary from "../Components/Page/Order/OrderSummary";
-import PaymentForm from "../Components/Page/Payment/PaymentForm";
+import { OrderSummary } from "../Components/Page/Order/Index";
+import {PaymentForms} from "../Components/Page/Payment/Index";
+
 
 function Payments() {
   const {
@@ -26,8 +27,7 @@ function Payments() {
           <div className="col-md-4 offset-md-1">
             <h3 className="text-success">Payment</h3>
             <div className="mt-5">
-
-            <PaymentForm />
+              <PaymentForms data={apiResult} userInput={userInput} />
             </div>
           </div>
         </div>

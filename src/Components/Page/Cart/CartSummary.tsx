@@ -22,8 +22,8 @@ function CartSummary() {
     cartItem: cartItemModel
   ) => {
     if (
-      (updateQuantityBy == -1 && cartItem.quantity == 1) ||
-      updateQuantityBy == 0
+      (updateQuantityBy === -1 && cartItem.quantity === 1) ||
+      updateQuantityBy === 0
     ) {
       //remove the item
       updateShoppingCart({

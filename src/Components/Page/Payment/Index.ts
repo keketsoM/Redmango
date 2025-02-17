@@ -1,3 +1,3 @@
-import PaymentForm from "./PaymentForm";
+import PaymentForms from "./PaymentForms";
 
-export { PaymentForm };
+export { PaymentForms };
