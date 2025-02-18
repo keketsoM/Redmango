@@ -14,6 +14,7 @@ import {
   Login,
   MenuItemDetails,
   MenuItemList,
+  MenuItemUpsert,
   MyOrders,
   NotFound,
   OrderConfirmed,
@@ -28,7 +29,7 @@ import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function App() {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.userAuthstore);
-  
+
   const { data, isLoading } = useGetAllShoppingCartQuery(userData.nameid);
 
   useEffect(() => {
@@ -64,8 +65,16 @@ function App() {
           />
           <Route path="/Order/orderDetails/:id" element={<OrderDetails />} />
           <Route path="/Order/MyOrders" element={<MyOrders />} />
-          <Route path="/Order/AllOrders" element={<AllOrders/>} />
-          <Route path="/MenuItem/MenuItemList" element={<MenuItemList/>} />
+          <Route path="/Order/AllOrders" element={<AllOrders />} />
+          <Route path="/MenuItem/MenuItemList" element={<MenuItemList />} />
+          <Route
+            path="/MenuItem/MenuItemUpsert/:id"
+            element={<MenuItemUpsert />}
+          />
+          <Route
+            path="/MenuItem/MenuItemUpsert"
+            element={<MenuItemUpsert />}
+          />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}

@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useGetAllMenuItemQuery } from "../../Apis/MenuItemApi";
 import { MainLoader } from "../../Components/Page/Common";
 import { menuItemModel } from "../../Interface";
 function MenuItemList() {
+  const navigate = useNavigate();
   const { data, isLoading } = useGetAllMenuItemQuery(null);
   console.log(data);
   return (
@@ -11,11 +13,16 @@ function MenuItemList() {
         <div className="table p-5">
           <div className="d-flex align-items-center justify-content-between">
             <h1 className="text-success">MenuItem List</h1>
-            <button className="btn btn-success">Add New</button>
+            <button
+              onClick={() => navigate(`/MenuItem/MenuItemUpsert`)}
+              className="btn btn-success"
+            >
+              Add New
+            </button>
           </div>
           <div className="p-2">
             <div className="row border">
-              <div className="col-2">data</div>
+              <div className="col-1">Image</div>
               <div className="col-1">ID</div>
               <div className="col-2">Name</div>
               <div className="col-2">Category</div>
@@ -26,7 +33,7 @@ function MenuItemList() {
             {data.result.map((menuItem: menuItemModel) => {
               return (
                 <div className="row border">
-                  <div className="col-2">
+                  <div className="col-1">
                     <img
                       src={menuItem.image}
                       alt="MenuItem Images "
@@ -39,7 +46,12 @@ function MenuItemList() {
                   <div className="col-1">${menuItem.price}</div>
                   <div className="col-2">{menuItem.specialTag}</div>
                   <div className="col-2">
-                    <button className="btn btn-success">
+                    <button
+                      onClick={() =>
+                        navigate(`/MenuItem/MenuItemUpsert/${menuItem.id}`)
+                      }
+                      className="btn btn-success"
+                    >
                       <i className="bi bi-pencil-fill"></i>
                     </button>
                     <button className="btn btn-danger mx-2">

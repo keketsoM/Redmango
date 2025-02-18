@@ -1,6 +1,11 @@
-const inputHelper = (e: React.ChangeEvent<HTMLInputElement|HTMLSelectElement>, data: any) => {
+const inputHelper = (
+  e: React.ChangeEvent<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+  >,
+  data: any
+) => {
   const tempData: any = { ...data };
-  tempData[e.target.name]=e.target.value;
+  tempData[e.target.name] = e.target.value;
   return tempData;
 };
 

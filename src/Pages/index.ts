@@ -13,7 +13,9 @@ import Payments from "./Payments";
 import Register from "./Register";
 import shoppingCart from "./ShoppingCart";
 import MenuItemList from "./MenuItem/MenuItemList";
+import MenuItemUpsert from "./MenuItem/MenuItemUpsert";
 export {
+  MenuItemUpsert,
   MenuItemList,
   AccessDenied,
   AllOrders,
