@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { inputHelper } from "../../Helper/Index";
+import { inputHelper, toastNotify } from "../../Helper/Index";
 const menuItemData = {
   name: "",
   Description: "",
@@ -9,7 +9,8 @@ const menuItemData = {
 };
 function MenuItemUpsert() {
   const [menuItemInput, setMenuInputs] = useState(menuItemData);
-
+  const [imageToBeDisplay, setImageToBeDisplay] = useState<string>();
+  const [imageToBeStore, setImageToBeStore] = useState<any>("");
   const handleMenuItemInput = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -17,6 +18,39 @@ function MenuItemUpsert() {
   ) => {
     const tempData = inputHelper(e, menuItemInput);
     setMenuInputs(tempData);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      const imgType = file.type.split("/")[1];
+      const vaildImgTypes = ["jpeg", "jpg", "png"];
+
+      const isImageTypeValid = vaildImgTypes.filter((e) => {
+        return e === imgType;
+      });
+
+      if (file.size > 1000 * 1024) {
+        setImageToBeStore("");
+        toastNotify("File Must be less then 1 MB", "error");
+        return;
+      } else if (isImageTypeValid.length === 0) {
+        setImageToBeStore("");
+        toastNotify("File Must be in jpeg, Jpg or png", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setImageToBeStore(file);
+      reader.onload = (e) => {
+        console.log(e);
+        const imgUrl = e.target?.result as string;
+        setImageToBeDisplay(imgUrl);
+      };
+    }
   };
 
   return (
@@ -37,6 +71,7 @@ function MenuItemUpsert() {
             <textarea
               className="form-control mt-3"
               placeholder="Enter Description"
+              rows={10}
               name="Description"
               value={menuItemData.Description}
               onChange={handleMenuItemInput}
@@ -66,7 +101,11 @@ function MenuItemUpsert() {
               value={menuItemData.Price}
               onChange={handleMenuItemInput}
             />
-            <input type="file" className="form-control mt-3" />
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="form-control mt-3"
+            />
             <div className="text-center">
               <button
                 type="submit"
@@ -79,7 +118,7 @@ function MenuItemUpsert() {
           </div>
           <div className="col-md-5 text-center">
             <img
-              src="https://via.placeholder.com/150"
+              src={imageToBeDisplay}
               style={{ width: "100%", borderRadius: "30px" }}
               alt=""
             />

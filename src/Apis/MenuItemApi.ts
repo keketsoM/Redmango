@@ -13,6 +13,33 @@ const menuItemApi = createApi({
       }),
       providesTags: ["MenuItems"],
     }),
+    CreateMenuItem: builder.mutation({
+      query: (data) => ({
+        url: `MenuItem`,
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        body: data,
+      }),
+      invalidatesTags: ["MenuItems"],
+    }),
+    updateMenuItem: builder.mutation({
+      query: ({ data, id }) => ({
+        url: `MenuItem/${id}`,
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: data,
+      }),
+      invalidatesTags: ["MenuItems"],
+    }),
+    deleteMenuItem: builder.mutation({
+      query: (id) => ({
+        url: `MenuItem/${id}`,
+        method: "DELETE",
+        headers: { "Content-type": "application/json" },
+        body: id,
+      }),
+      invalidatesTags: ["MenuItems"],
+    }),
     getMenuItem: builder.query({
       query: (id) => ({
         url: `MenuItem/${id}`,
@@ -21,5 +48,11 @@ const menuItemApi = createApi({
     }),
   }),
 });
-export const {useGetAllMenuItemQuery,useGetMenuItemQuery}=menuItemApi;
+export const {
+  useGetAllMenuItemQuery,
+  useGetMenuItemQuery,
+  useUpdateMenuItemMutation,
+  useDeleteMenuItemMutation,
+  useCreateMenuItemMutation,
+} = menuItemApi;
 export default menuItemApi;
