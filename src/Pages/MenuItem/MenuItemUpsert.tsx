@@ -1,7 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCreateMenuItemMutation } from "../../Apis/MenuItemApi";
 import { inputHelper, toastNotify } from "../../Helper/Index";
 const menuItemData = {
-  name: "",
+  Name: "",
   Description: "",
   SpecialTag: "",
   Category: "",
@@ -9,8 +11,11 @@ const menuItemData = {
 };
 function MenuItemUpsert() {
   const [menuItemInput, setMenuInputs] = useState(menuItemData);
-  const [imageToBeDisplay, setImageToBeDisplay] = useState<string>();
-  const [imageToBeStore, setImageToBeStore] = useState<any>("");
+  const [imageToDisplay, setImageToDisplay] = useState<string>();
+  const [imageToStore, setImageToStore] = useState<any>("");
+  const [isloading, SetLoading] = useState(false);
+  const navigate = useNavigate();
+  const [CreateMenuItem] = useCreateMenuItemMutation();
   const handleMenuItemInput = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -33,30 +38,56 @@ function MenuItemUpsert() {
       });
 
       if (file.size > 1000 * 1024) {
-        setImageToBeStore("");
+        setImageToStore("");
         toastNotify("File Must be less then 1 MB", "error");
         return;
       } else if (isImageTypeValid.length === 0) {
-        setImageToBeStore("");
+        setImageToStore("");
         toastNotify("File Must be in jpeg, Jpg or png", "error");
         return;
       }
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      setImageToBeStore(file);
+      setImageToStore(file);
       reader.onload = (e) => {
         console.log(e);
         const imgUrl = e.target?.result as string;
-        setImageToBeDisplay(imgUrl);
+        setImageToDisplay(imgUrl);
       };
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    SetLoading(true);
+    if (!imageToStore) {
+      toastNotify("Please upload an image", "error");
+      SetLoading(false);
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("Name", menuItemInput.Name);
+    formData.append("Description", menuItemInput.Description);
+    formData.append("SpecialTag", menuItemInput.SpecialTag);
+    formData.append("Category", menuItemInput.Category);
+    formData.append("Price", menuItemInput.Price);
+    formData.append("Image", imageToStore);
+
+    const response = await CreateMenuItem(formData);
+    if (response) {
+      console.log(response);
+      SetLoading(false);
+      navigate("/MenuItem/MenuItemList");
     }
   };
 
   return (
     <div className="container border mt-5 p-5">
       <h3 className="offset-2 px-2 text-success">Add Product</h3>
-      <form method="post" encType="multipart/form-data">
+      <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="row mt-3">
           <div className="col-md-5 offset-2">
             <input
@@ -64,8 +95,8 @@ function MenuItemUpsert() {
               className="form-control"
               placeholder="Enter Name"
               required
-              name="name"
-              value={menuItemData.name}
+              name="Name"
+              value={menuItemInput.Name}
               onChange={handleMenuItemInput}
             />
             <textarea
@@ -73,7 +104,7 @@ function MenuItemUpsert() {
               placeholder="Enter Description"
               rows={10}
               name="Description"
-              value={menuItemData.Description}
+              value={menuItemInput.Description}
               onChange={handleMenuItemInput}
             ></textarea>
             <input
@@ -81,7 +112,7 @@ function MenuItemUpsert() {
               className="form-control mt-3"
               placeholder="Enter Special Tag"
               name="SpecialTag"
-              value={menuItemData.SpecialTag}
+              value={menuItemInput.SpecialTag}
               onChange={handleMenuItemInput}
             />
             <input
@@ -89,7 +120,7 @@ function MenuItemUpsert() {
               className="form-control mt-3"
               placeholder="Enter Category"
               name="Category"
-              value={menuItemData.Category}
+              value={menuItemInput.Category}
               onChange={handleMenuItemInput}
             />
             <input
@@ -98,7 +129,7 @@ function MenuItemUpsert() {
               required
               placeholder="Enter Price"
               name="Price"
-              value={menuItemData.Price}
+              value={menuItemInput.Price}
               onChange={handleMenuItemInput}
             />
             <input
@@ -108,6 +139,7 @@ function MenuItemUpsert() {
             />
             <div className="text-center">
               <button
+                onClick={() => handleSubmit}
                 type="submit"
                 style={{ width: "50%" }}
                 className="btn btn-success mt-5"
@@ -118,7 +150,7 @@ function MenuItemUpsert() {
           </div>
           <div className="col-md-5 text-center">
             <img
-              src={imageToBeDisplay}
+              src={imageToDisplay}
               style={{ width: "100%", borderRadius: "30px" }}
               alt=""
             />

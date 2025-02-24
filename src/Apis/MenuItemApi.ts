@@ -14,11 +14,11 @@ const menuItemApi = createApi({
       providesTags: ["MenuItems"],
     }),
     CreateMenuItem: builder.mutation({
-      query: (data) => ({
+      query: (meunItemsCreateDTO) => ({
         url: `MenuItem`,
         method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: data,
+        
+        body: meunItemsCreateDTO,
       }),
       invalidatesTags: ["MenuItems"],
     }),
@@ -26,7 +26,7 @@ const menuItemApi = createApi({
       query: ({ data, id }) => ({
         url: `MenuItem/${id}`,
         method: "PUT",
-        headers: { "Content-type": "application/json" },
+       
         body: data,
       }),
       invalidatesTags: ["MenuItems"],
@@ -35,7 +35,7 @@ const menuItemApi = createApi({
       query: (id) => ({
         url: `MenuItem/${id}`,
         method: "DELETE",
-        headers: { "Content-type": "application/json" },
+       
         body: id,
       }),
       invalidatesTags: ["MenuItems"],
