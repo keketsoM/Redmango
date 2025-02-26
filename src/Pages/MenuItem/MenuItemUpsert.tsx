@@ -1,6 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCreateMenuItemMutation } from "../../Apis/MenuItemApi";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useCreateMenuItemMutation,
+  useGetMenuItemQuery,
+} from "../../Apis/MenuItemApi";
 import { MainLoader } from "../../Components/Page/Common";
 import { inputHelper, toastNotify } from "../../Helper/Index";
 const menuItemData = {
@@ -16,7 +19,23 @@ function MenuItemUpsert() {
   const [imageToStore, setImageToStore] = useState<any>("");
   const [isloading, SetLoading] = useState(false);
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { data } = useGetMenuItemQuery(id);
   const [CreateMenuItem] = useCreateMenuItemMutation();
+
+  useEffect(() => {
+    if (data && data.result) {
+      const tempData = {
+        Name: data.result.name,
+        Description: data.result.description,
+        SpecialTag: data.result.specialTag,
+        Category: data.result.category,
+        Price: data.result.price,
+      };
+      setMenuInputs(tempData);
+      setImageToDisplay(data.result.image);
+    }
+  }, [data]);
   const handleMenuItemInput = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
