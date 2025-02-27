@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState,useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useInitialPaymentMutation } from "../../../Apis/paymentApi";
@@ -43,6 +43,13 @@ function CartPickUpDetails() {
       state: { apiResult: data?.result, userInput },
     });
   };
+  useEffect(()=>{
+setUserInput({
+  name: userData.unique_name,
+  email: userData.email,
+  phoneNumber: "",
+})
+  },[userData])
   return (
     <div className="border pb-5 pt-3">
       <h1 style={{ fontWeight: "300" }} className="text-center text-success">
