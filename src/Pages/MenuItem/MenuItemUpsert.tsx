@@ -3,16 +3,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useCreateMenuItemMutation,
   useGetMenuItemQuery,
+  useUpdateMenuItemMutation,
 } from "../../Apis/MenuItemApi";
 import { MainLoader } from "../../Components/Page/Common";
 import { inputHelper, toastNotify } from "../../Helper/Index";
+import { SD_Categories } from "../../Utility/SD";
+
+const Categories = [
+  SD_Categories.APPETIZER,
+  SD_Categories.BEVERAGES,
+  SD_Categories.DESSERT,
+  SD_Categories.ENTREE,
+];
 const menuItemData = {
   Name: "",
   Description: "",
   SpecialTag: "",
-  Category: "",
+  Category: Categories[0],
   Price: "",
 };
+
 function MenuItemUpsert() {
   const [menuItemInput, setMenuInputs] = useState(menuItemData);
   const [imageToDisplay, setImageToDisplay] = useState<string>();
@@ -21,10 +31,12 @@ function MenuItemUpsert() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { data } = useGetMenuItemQuery(id);
+  const [updateMenuItem] = useUpdateMenuItemMutation();
   const [CreateMenuItem] = useCreateMenuItemMutation();
 
   useEffect(() => {
     if (data && data.result) {
+      console.log("data" + data);
       const tempData = {
         Name: data.result.name,
         Description: data.result.description,
@@ -46,11 +58,10 @@ function MenuItemUpsert() {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
     const file = e.target.files && e.target.files[0];
 
     if (file) {
-      const imgType = file.type.split("/")[1];
+      const imgType = file.name.split(".")[1].toLowerCase();
       const vaildImgTypes = ["jpeg", "jpg", "png"];
 
       const isImageTypeValid = vaildImgTypes.filter((e) => {
@@ -69,10 +80,13 @@ function MenuItemUpsert() {
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
       setImageToStore(file);
+      console.log("Image to Store set");
       reader.onload = (e) => {
         console.log(e);
         const imgUrl = e.target?.result as string;
+        console.log("Image to display set");
         setImageToDisplay(imgUrl);
       };
     }
@@ -81,7 +95,7 @@ function MenuItemUpsert() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     SetLoading(true);
-    if (!imageToStore) {
+    if (!imageToStore && !id) {
       toastNotify("Please upload an image", "error");
       SetLoading(false);
       return;
@@ -91,14 +105,27 @@ function MenuItemUpsert() {
 
     formData.append("Name", menuItemInput.Name);
     formData.append("Description", menuItemInput.Description);
-    formData.append("SpecialTag", menuItemInput.SpecialTag);
+    formData.append("SpecialTag", menuItemInput.SpecialTag??"");
     formData.append("Category", menuItemInput.Category);
     formData.append("Price", menuItemInput.Price);
-    formData.append("Image", imageToStore);
+    if (imageToDisplay) {
+      formData.append("Image", imageToStore);
+    }
+    let response;
 
-    const response = await CreateMenuItem(formData);
+    if (id) {
+      //update
+      formData.append("Id", id);
+      response = await updateMenuItem({ data: formData, id });
+
+      toastNotify("Menu Item updated successfully", "success");
+    } else {
+      //create
+      response = await CreateMenuItem(formData);
+      toastNotify("Menu Item created successfully", "success");
+    }
+
     if (response) {
-      console.log(response);
       SetLoading(false);
       navigate("/MenuItem/MenuItemList");
     }
@@ -107,7 +134,9 @@ function MenuItemUpsert() {
   return (
     <div className="container border mt-5 p-5 bg-light">
       {isloading && <MainLoader />}
-      <h3 className="px-2 text-success">Add Menu Item</h3>
+      <h3 className="px-2 text-success">
+        {id ? "Update Menu Item" : "Add Menu Item"}
+      </h3>
       <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="row mt-3">
           <div className="col-md-7">
@@ -136,14 +165,16 @@ function MenuItemUpsert() {
               value={menuItemInput.SpecialTag}
               onChange={handleMenuItemInput}
             />
-            <input
-              type="text"
-              className="form-control mt-3"
-              placeholder="Enter Category"
+            <select
+              className="form-control mt-3 form-select"
               name="Category"
               value={menuItemInput.Category}
               onChange={handleMenuItemInput}
-            />
+            >
+              {Categories.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
             <input
               type="number"
               className="form-control mt-3"
@@ -165,13 +196,13 @@ function MenuItemUpsert() {
                   type="submit"
                   className="btn btn-success form-control mt-3"
                 >
-                  Submit
+                  {id ? "Update" : "Create"}
                 </button>
               </div>
               <div className="col-6">
                 <a
                   className="btn btn-secondary form-control mt-3"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/MenuItem/MenuItemList")}
                 >
                   Back to Menu Items
                 </a>

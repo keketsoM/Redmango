@@ -32,11 +32,11 @@ function MenuItemList() {
             </div>
             {data.result.map((menuItem: menuItemModel) => {
               return (
-                <div className="row border">
+                <div className="row border" key={menuItem.id}>
                   <div className="col-1">
                     <img
                       src={menuItem.image}
-                      alt="MenuItem Images "
+                      alt="MenuItems Images "
                       style={{ width: "100%", maxWidth: "120px" }}
                     />
                   </div>
