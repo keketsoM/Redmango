@@ -1,8 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   menuItem: [],
-  searchItem :"",
+  searchItem: "",
 };
 
 export const menuItemSlice = createSlice({
@@ -16,7 +16,6 @@ export const menuItemSlice = createSlice({
       state.searchItem = action.payload;
     },
   },
-  
 });
-export const {setMeunItem,setSearchItem} =menuItemSlice.actions;
+export const { setMeunItem, setSearchItem } = menuItemSlice.actions;
 export const menuItemReducer = menuItemSlice.reducer;
