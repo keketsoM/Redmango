@@ -32,20 +32,47 @@ function MenuItemList() {
   }, [isLoading]);
   useEffect(() => {
     if (data && data.result) {
-      const tempMenuArray = handleFilters(searchValue);
+      const tempMenuArray = handleFilters("ALL", searchValue);
       setMenuItems(tempMenuArray);
     }
   }, [searchValue]);
-  const handleFilters = (search: string) => {
-    let tempMenuItems = [...data.result];
+
+  const handleCategoryClick = (i: number) => {
+    const buttons = document.querySelectorAll(".custom-buttons");
+    let localCategory;
+    buttons.forEach((button, index) => {
+      if (index === i) {
+        button.classList.add("active");
+        if (index === 0) {
+          localCategory = "ALL";
+        } else {
+          localCategory = categoryList[index];
+        }
+        setSelectedCategory(localCategory);
+        const tempArray = handleFilters(searchValue, localCategory);
+        setMenuItems(tempArray);
+      } else {
+        button.classList.remove("active");
+      }
+    });
+  };
+
+  const handleFilters = (search: string, category: string) => {
+    let tempArray =
+      category === "ALL"
+        ? [...data.result]
+        : data.result.filter(
+            (items: menuItemModel) =>
+              items.category.toUpperCase() === category.toUpperCase()
+          );
 
     if (search) {
-      const tempSearchMenuItems = [...tempMenuItems];
-      tempMenuItems = tempSearchMenuItems.filter((items: menuItemModel) =>
+      const tempSearchMenuItems = [...tempArray];
+      tempArray = tempSearchMenuItems.filter((items: menuItemModel) =>
         items.name.toUpperCase().includes(search.toUpperCase())
       );
     }
-    return tempMenuItems;
+    return tempArray;
   };
 
   if (isLoading) {
@@ -62,6 +89,7 @@ function MenuItemList() {
                 className={`nav-link p-0 pb-2 custom-buttons fs-5 ${
                   index === 0 && "active"
                 }`}
+                onClick={() => handleCategoryClick(index)}
               >
                 {categoryName}
               </button>
