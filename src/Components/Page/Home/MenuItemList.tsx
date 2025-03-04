@@ -32,7 +32,7 @@ function MenuItemList() {
   }, [isLoading]);
   useEffect(() => {
     if (data && data.result) {
-      const tempMenuArray = handleFilters("ALL", searchValue);
+      const tempMenuArray = handleFilters(searchValue, "ALL");
       setMenuItems(tempMenuArray);
     }
   }, [searchValue]);
