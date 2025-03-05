@@ -10,6 +10,7 @@ import MenuItemCard from "./MenuItemCard";
 function MenuItemList() {
   const { data, isLoading } = useGetAllMenuItemQuery(null);
   const dispatch = useDispatch();
+  
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([""]);
   const [sortName, setSortName] = useState(SD_SortTypes.NAME_A_Z);

@@ -28,9 +28,12 @@ import { RootState } from "../Storage/Redux/store";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function App() {
   const dispatch = useDispatch();
+
   const userData = useSelector((state: RootState) => state.userAuthstore);
 
-  const { data, isLoading } = useGetAllShoppingCartQuery(userData.nameid);
+  const { data, isLoading } = useGetAllShoppingCartQuery(userData.nameid, {
+    skip: !userData.nameid,
+  });
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -40,8 +43,9 @@ function App() {
       dispatch(setLoggedInUser({ unique_name, nameid, email, role }));
     }
   }, []);
+
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && data?.result) {
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
@@ -71,10 +75,7 @@ function App() {
             path="/MenuItem/MenuItemUpsert/:id"
             element={<MenuItemUpsert />}
           />
-          <Route
-            path="/MenuItem/MenuItemUpsert"
-            element={<MenuItemUpsert />}
-          />
+          <Route path="/MenuItem/MenuItemUpsert" element={<MenuItemUpsert />} />
           <Route
             path="/MenuItemDetails/:menuItemId"
             element={<MenuItemDetails />}
