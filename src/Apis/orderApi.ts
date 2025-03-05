@@ -4,6 +4,10 @@ const orderApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://localhost:44344/api/",
+    prepareHeaders: (headers: Headers, api) => {
+      const token = localStorage.getItem("token");
+      token && headers.append("Authorization", "Bearer " + token);
+    },
   }),
   tagTypes: ["Orders"],
   endpoints: (builder) => ({
@@ -19,7 +23,6 @@ const orderApi = createApi({
     }),
     updateOrderHeader: builder.mutation({
       query: (orderHeaderUpdateDTO) => ({
-        
         url: `Order/${orderHeaderUpdateDTO.orderHeaderId}`,
         method: "PUT",
         headers: { "Content-type": "application/json" },
@@ -46,8 +49,6 @@ const orderApi = createApi({
       }),
       invalidatesTags: ["Orders"],
     }),
-
-   
   }),
 });
 export const {
