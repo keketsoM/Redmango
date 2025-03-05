@@ -4,6 +4,7 @@ import { useGetAllMenuItemQuery } from "../../../Apis/MenuItemApi";
 import { menuItemModel } from "../../../Interface";
 import { setMeunItem } from "../../../Storage/Redux/menuItemSlice";
 import { RootState } from "../../../Storage/Redux/store";
+import { SD_SortTypes } from "../../../Utility/SD";
 import { MainLoader } from "../Common";
 import MenuItemCard from "./MenuItemCard";
 function MenuItemList() {
@@ -11,11 +12,18 @@ function MenuItemList() {
   const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([""]);
+  const [sortName, setSortName] = useState(SD_SortTypes.NAME_A_Z);
+
   const [menuItem, setMenuItems] = useState<menuItemModel[]>([]);
   const searchValue = useSelector(
     (state: RootState) => state.menuItemStore.searchItem
   );
-  console.log(data);
+  const sortOptions: Array<SD_SortTypes> = [
+    SD_SortTypes.PRICE_LOW_HIGH,
+    SD_SortTypes.PRICE_HIGH_LOW,
+    SD_SortTypes.NAME_A_Z,
+    SD_SortTypes.NAME_Z_A,
+  ];
 
   useEffect(() => {
     if (!isLoading) {
@@ -32,7 +40,11 @@ function MenuItemList() {
   }, [isLoading]);
   useEffect(() => {
     if (data && data.result) {
-      const tempMenuArray = handleFilters(searchValue, "ALL");
+      const tempMenuArray = handleFilters(
+        searchValue,
+        selectedCategory,
+        sortName
+      );
       setMenuItems(tempMenuArray);
     }
   }, [searchValue]);
@@ -49,7 +61,7 @@ function MenuItemList() {
           localCategory = categoryList[index];
         }
         setSelectedCategory(localCategory);
-        const tempArray = handleFilters(searchValue, localCategory);
+        const tempArray = handleFilters(searchValue, localCategory, sortName);
         setMenuItems(tempArray);
       } else {
         button.classList.remove("active");
@@ -57,7 +69,20 @@ function MenuItemList() {
     });
   };
 
-  const handleFilters = (search: string, category: string) => {
+  const handleSortClick = (i: number) => {
+    setSortName(sortOptions[i]);
+    const tempArray = handleFilters(
+      searchValue,
+      selectedCategory,
+      sortOptions[i]
+    );
+    setMenuItems(tempArray);
+  };
+  const handleFilters = (
+    search: string,
+    category: string,
+    sortType?: SD_SortTypes
+  ) => {
     let tempArray =
       category === "ALL"
         ? [...data.result]
@@ -66,10 +91,32 @@ function MenuItemList() {
               items.category.toUpperCase() === category.toUpperCase()
           );
 
+    //search Functionality
     if (search) {
-      const tempSearchMenuItems = [...tempArray];
-      tempArray = tempSearchMenuItems.filter((items: menuItemModel) =>
+      const tempArray2 = [...tempArray];
+      tempArray = tempArray2.filter((items: menuItemModel) =>
         items.name.toUpperCase().includes(search.toUpperCase())
+      );
+    }
+    //sort
+    if (sortType === SD_SortTypes.PRICE_LOW_HIGH) {
+      tempArray.sort((a: menuItemModel, b: menuItemModel) => a.price - b.price);
+    }
+    if (sortType === SD_SortTypes.PRICE_HIGH_LOW) {
+      tempArray.sort((a: menuItemModel, b: menuItemModel) => b.price - a.price);
+    }
+    if (sortType === SD_SortTypes.NAME_A_Z) {
+      tempArray.sort(
+        (a: menuItemModel, b: menuItemModel) =>
+          a.name.toUpperCase().charCodeAt(0) -
+          b.name.toUpperCase().charCodeAt(0)
+      );
+    }
+    if (sortType === SD_SortTypes.NAME_Z_A) {
+      tempArray.sort(
+        (a: menuItemModel, b: menuItemModel) =>
+          b.name.toUpperCase().charCodeAt(0) -
+          a.name.toUpperCase().charCodeAt(0)
       );
     }
     return tempArray;
@@ -95,6 +142,27 @@ function MenuItemList() {
               </button>
             </li>
           ))}
+          <li className="nav-item dropdown" style={{ marginLeft: "auto" }}>
+            <div
+              className="nav-link dropdown-toggle text-dark fs-6 border"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {sortName}
+            </div>
+            <ul className="dropdown-menu">
+              {sortOptions.map((sortType, index) => (
+                <li
+                  key={index}
+                  className="dropdown-item"
+                  onClick={() => handleSortClick(index)}
+                >
+                  {sortType}
+                </li>
+              ))}
+            </ul>
+          </li>
         </ul>
       </div>
       {menuItem.length > 0 &&
