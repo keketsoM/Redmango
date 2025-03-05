@@ -131,7 +131,11 @@ function MenuItemList() {
       <div className="my-3">
         <ul className="nav w-100 d-flex justify-content-center">
           {categoryList.map((categoryName, index) => (
-            <li className="nav-item" key={index}>
+            <li
+              className="nav-item"
+              style={index === 0 ? { marginLeft: "auto" }:{}}
+              key={index}
+            >
               <button
                 className={`nav-link p-0 pb-2 custom-buttons fs-5 ${
                   index === 0 && "active"
