@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetAllOrderQuery } from "../../Apis/orderApi";
 import { MainLoader } from "../../Components/Page/Common";
 import OrderList from "../../Components/Page/Order/OrderList";
 
 import withAdminAuth from "../../HOC/withAdminAuth";
 import { inputHelper } from "../../Helper/Index";
+import OrderHeaderModel from "../../Interface/OrderHeaderModel";
 import { SD_Status } from "../../Utility/SD";
 function AllOrders() {
-  const { data, isLoading } = useGetAllOrderQuery("");
+  const [orderData, setOrderData] = useState([]);
   const [filter, setFilters] = useState({ searchString: "", status: "" });
+  const { data, isLoading } = useGetAllOrderQuery({
+    ...(filter &&{searchString:filter.searchString,status:filter.status})
+  });
+ 
   const filterOption = [
     "All",
     SD_Status.CONFIRMED,
@@ -22,7 +27,36 @@ function AllOrders() {
     const tempData = inputHelper(e, filter);
     setFilters(tempData);
   };
-  console.log(data);
+
+  const handleFilters = () => {
+    //search phone email number
+    const tempData = data.result.filter(
+      (orderData: OrderHeaderModel, index: number) => {
+        if (
+          (orderData.pickupName &&
+            orderData.pickupName.includes(filter.searchString)) ||
+          (orderData.pickupEmail &&
+            orderData.pickupEmail.includes(filter.searchString)) ||
+          (orderData.pickupPhoneNumber &&
+            orderData.pickupPhoneNumber.includes(filter.searchString))
+        ) {
+          return orderData;
+        }
+      }
+    );
+    //status
+    const finalArray = tempData.filter((orderData: OrderHeaderModel) =>
+      filter.status !== "" ? orderData.status === filter.status : orderData
+    );
+    setOrderData(finalArray);
+  };
+ 
+   useEffect(()=>{
+    if(data){
+     setOrderData(data.result) 
+    }
+   },[data])
+  
   return (
     <>
       {isLoading && <MainLoader />}
@@ -50,10 +84,15 @@ function AllOrders() {
                   </div>
                 ))}
               </select>
-              <button className="btn btn-outline-success">Filter</button>
+              <button
+                className="btn btn-outline-success"
+                onClick={handleFilters}
+              >
+                Filter
+              </button>
             </div>
           </div>
-          <OrderList isLoading={isLoading} orderData={data.result} />
+          <OrderList isLoading={isLoading} orderData={orderData} />
         </>
       )}
     </>

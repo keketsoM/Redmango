@@ -4,13 +4,14 @@ import { MainLoader } from "../../Components/Page/Common";
 import OrderList from "../../Components/Page/Order/OrderList";
 import withAuth from "../../HOC/withAuth";
 import { RootState } from "../../Storage/Redux/store";
-import { SD_Status } from "../../Utility/SD";
-
-
 
 function MyOrders() {
   const userId = useSelector((state: RootState) => state.userAuthstore.nameid);
-  const { data, isLoading } = useGetAllOrderQuery(userId);
+  const { data, isLoading } = useGetAllOrderQuery({
+    userId: userId,
+    searchString: "",
+    status: "",
+  });
   console.log(userId);
   console.log(data);
   return (
