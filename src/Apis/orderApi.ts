@@ -21,6 +21,12 @@ const orderApi = createApi({
           status: status,
         },
       }),
+      transformResponse(apiResponse: { result: any }, meta: any) {
+        return {
+          apiResponse,
+          totalRecords: meta.response.headers.get("X-Pagination"),
+        };
+      },
       providesTags: ["Orders"],
     }),
     updateOrderHeader: builder.mutation({

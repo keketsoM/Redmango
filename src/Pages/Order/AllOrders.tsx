@@ -9,6 +9,11 @@ import { SD_Status } from "../../Utility/SD";
 function AllOrders() {
   const [orderData, setOrderData] = useState([]);
   const [filter, setFilters] = useState({ searchString: "", status: "" });
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [pageOptions, setPageOptions] = useState({
+    pageNumber: 1,
+    pageSize: 5,
+  });
   const [apiFilter, setApiFilters] = useState({ searchString: "", status: "" });
   const { data, isLoading } = useGetAllOrderQuery({
     ...(apiFilter && {
@@ -38,15 +43,18 @@ function AllOrders() {
 
   useEffect(() => {
     if (data) {
-      setOrderData(data.result);
+      setOrderData(data.apiResponse.result);
+      const TotalRecords = JSON.parse(data.totalRecords);
+      setTotalRecords(TotalRecords);
     }
   }, [data]);
-
+  console.log(totalRecords);
   return (
     <>
       {isLoading && <MainLoader />}
       {!isLoading && (
         <>
+          
           <div className="d-flex align-items-center justify-content-between mx-5 mt-5">
             <h1 className="text-success">Orders List</h1>
             <div className="d-flex " style={{ width: "40%" }}>
