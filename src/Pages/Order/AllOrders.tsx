@@ -5,15 +5,19 @@ import OrderList from "../../Components/Page/Order/OrderList";
 
 import withAdminAuth from "../../HOC/withAdminAuth";
 import { inputHelper } from "../../Helper/Index";
-import OrderHeaderModel from "../../Interface/OrderHeaderModel";
 import { SD_Status } from "../../Utility/SD";
 function AllOrders() {
   const [orderData, setOrderData] = useState([]);
   const [filter, setFilters] = useState({ searchString: "", status: "" });
+  const [apiFilter, setApiFilters] = useState({ searchString: "", status: "" });
   const { data, isLoading } = useGetAllOrderQuery({
-    ...(filter &&{searchString:filter.searchString,status:filter.status})
+    ...(apiFilter && {
+      userId: "",
+      searchString: apiFilter.searchString,
+      status: apiFilter.status,
+    }),
   });
- 
+
   const filterOption = [
     "All",
     SD_Status.CONFIRMED,
@@ -29,34 +33,15 @@ function AllOrders() {
   };
 
   const handleFilters = () => {
-    //search phone email number
-    const tempData = data.result.filter(
-      (orderData: OrderHeaderModel, index: number) => {
-        if (
-          (orderData.pickupName &&
-            orderData.pickupName.includes(filter.searchString)) ||
-          (orderData.pickupEmail &&
-            orderData.pickupEmail.includes(filter.searchString)) ||
-          (orderData.pickupPhoneNumber &&
-            orderData.pickupPhoneNumber.includes(filter.searchString))
-        ) {
-          return orderData;
-        }
-      }
-    );
-    //status
-    const finalArray = tempData.filter((orderData: OrderHeaderModel) =>
-      filter.status !== "" ? orderData.status === filter.status : orderData
-    );
-    setOrderData(finalArray);
+    setApiFilters({ searchString: filter.searchString, status: filter.status });
   };
- 
-   useEffect(()=>{
-    if(data){
-     setOrderData(data.result) 
+
+  useEffect(() => {
+    if (data) {
+      setOrderData(data.result);
     }
-   },[data])
-  
+  }, [data]);
+
   return (
     <>
       {isLoading && <MainLoader />}
@@ -86,7 +71,7 @@ function AllOrders() {
               </select>
               <button
                 className="btn btn-outline-success"
-                onClick={handleFilters}
+                onClick={() => handleFilters()}
               >
                 Filter
               </button>
