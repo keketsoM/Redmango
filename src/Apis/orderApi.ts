@@ -12,13 +12,15 @@ const orderApi = createApi({
   tagTypes: ["Orders"],
   endpoints: (builder) => ({
     GetAllOrder: builder.query({
-      query: ({ userId, searchString, status }) => ({
+      query: ({ userId, searchString, status, pageSize, pageNumber }) => ({
         url: "Order",
         method: "GET",
         params: {
           userId: userId,
           searchString: searchString,
           status: status,
+          pageSize: pageSize,
+          pageNumber: pageNumber,
         },
       }),
       transformResponse(apiResponse: { result: any }, meta: any) {

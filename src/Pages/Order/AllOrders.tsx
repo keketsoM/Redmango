@@ -20,6 +20,8 @@ function AllOrders() {
       userId: "",
       searchString: apiFilter.searchString,
       status: apiFilter.status,
+      pageNumber: pageOptions.pageNumber,
+      pageSize: pageOptions.pageSize,
     }),
   });
 
@@ -40,21 +42,37 @@ function AllOrders() {
   const handleFilters = () => {
     setApiFilters({ searchString: filter.searchString, status: filter.status });
   };
-
+  const handlePaginationClick = (direction: string) => {
+    if (direction === "prev") {
+      setPageOptions({ pageSize: 5, pageNumber: pageOptions.pageNumber - 1 });
+    } else if (direction === "next") {
+      setPageOptions({ pageSize: 5, pageNumber: pageOptions.pageNumber + 1 });
+    }
+  };
   useEffect(() => {
     if (data) {
       setOrderData(data.apiResponse.result);
-      const TotalRecords = JSON.parse(data.totalRecords);
+      const { TotalRecords } = JSON.parse(data.totalRecords);
       setTotalRecords(TotalRecords);
     }
   }, [data]);
   console.log(totalRecords);
+  const getPageDetails = () => {
+    const dataStartNumber =
+      (pageOptions.pageNumber - 1) * pageOptions.pageSize + 1;
+    const dataEndNumber = pageOptions.pageNumber * pageOptions.pageSize;
+
+    return `${dataStartNumber}
+             -
+            ${
+              dataEndNumber < totalRecords ? dataEndNumber : totalRecords
+            } of ${totalRecords}`;
+  };
   return (
     <>
       {isLoading && <MainLoader />}
       {!isLoading && (
         <>
-          
           <div className="d-flex align-items-center justify-content-between mx-5 mt-5">
             <h1 className="text-success">Orders List</h1>
             <div className="d-flex " style={{ width: "40%" }}>
@@ -86,6 +104,25 @@ function AllOrders() {
             </div>
           </div>
           <OrderList isLoading={isLoading} orderData={orderData} />
+          <div className="d-flex mx-5 justify-content-end align-items-center">
+            <div className="mx-2">{getPageDetails()}</div>
+            <button
+              className="btn btn-outline-primary px-3 mx-2"
+              disabled={pageOptions.pageNumber === 1}
+              onClick={() => handlePaginationClick("prev")}
+            >
+              <i className="bi bi-chevron-left"></i>
+            </button>
+            <button
+              onClick={() => handlePaginationClick("next")}
+              className="btn btn-outline-primary px-3 mx-2"
+              disabled={
+                pageOptions.pageNumber * pageOptions.pageSize >= totalRecords
+              }
+            >
+              <i className="bi bi-chevron-right"></i>
+            </button>
+          </div>
         </>
       )}
     </>
