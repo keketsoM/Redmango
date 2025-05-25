@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const orderApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://localhost:44344/api/",
+    baseUrl: "http://keketsom-001-site1.anytempurl.com/api/",
     prepareHeaders: (headers: Headers, api) => {
       const token = localStorage.getItem("token");
       token && headers.append("Authorization", "Bearer " + token);
@@ -12,13 +12,23 @@ const orderApi = createApi({
   tagTypes: ["Orders"],
   endpoints: (builder) => ({
     GetAllOrder: builder.query({
-      query: (userId) => ({
+      query: ({ userId, searchString, status, pageSize, pageNumber }) => ({
         url: "Order",
         method: "GET",
         params: {
           userId: userId,
+          searchString: searchString,
+          status: status,
+          pageSize: pageSize,
+          pageNumber: pageNumber,
         },
       }),
+      transformResponse(apiResponse: { result: any }, meta: any) {
+        return {
+          apiResponse,
+          totalRecords: meta.response.headers.get("X-Pagination"),
+        };
+      },
       providesTags: ["Orders"],
     }),
     updateOrderHeader: builder.mutation({
