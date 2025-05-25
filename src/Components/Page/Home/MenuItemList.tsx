@@ -10,7 +10,7 @@ import MenuItemCard from "./MenuItemCard";
 function MenuItemList() {
   const { data, isLoading } = useGetAllMenuItemQuery(null);
   const dispatch = useDispatch();
-  
+
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([""]);
   const [sortName, setSortName] = useState(SD_SortTypes.NAME_A_Z);
@@ -28,7 +28,10 @@ function MenuItemList() {
 
   useEffect(() => {
     if (!isLoading) {
+      console.dir(data);
+      console.dir(data.result);
       dispatch(setMeunItem(data.result));
+
       setMenuItems(data.result);
       const tempCategoryList = ["All"];
       data.result.forEach((item: menuItemModel) => {
@@ -134,7 +137,7 @@ function MenuItemList() {
           {categoryList.map((categoryName, index) => (
             <li
               className="nav-item"
-              style={index === 0 ? { marginLeft: "auto" }:{}}
+              style={index === 0 ? { marginLeft: "auto" } : {}}
               key={index}
             >
               <button

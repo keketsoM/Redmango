@@ -7,15 +7,14 @@ import {
 import { MainLoader } from "../../Components/Page/Common";
 import { menuItemModel } from "../../Interface";
 
-
-function MenuItemList()
-  {
+function MenuItemList() {
   const [deleteMenuItem] = useDeleteMenuItemMutation();
   const navigate = useNavigate();
-  
-  const { data, isLoading } = useGetAllMenuItemQuery(null);
 
- 
+  const { data, isLoading } = useGetAllMenuItemQuery(null);
+  console.log(data);
+  console.dir(data.result);
+
   const handleMenuItemDelete = async (id: number) => {
     deleteMenuItem(id);
     toast.promise(
