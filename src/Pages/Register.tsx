@@ -13,7 +13,7 @@ function Register() {
   const [error, SetErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
-    UserName: "",
+    Email: "",
     Password: "",
     Role: "",
     Name: "",
@@ -28,7 +28,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     const response: apiResponse = await setUserRegister({
-      UserName: userInput.UserName,
+      UserName: userInput.Email,
       Password: userInput.Password,
       Role: userInput.Role,
       Name: userInput.Name,
@@ -37,7 +37,6 @@ function Register() {
       toastNotify("Registeration successfully! Please login to continue. ");
       navigate("/login");
     } else if (response.error) {
-     
       toastNotify(response.error.data.errorList[0], "error");
     }
     setLoading(false);
@@ -51,10 +50,10 @@ function Register() {
             <input
               type="text"
               className="form-control"
-              placeholder="Enter Username"
+              placeholder="Enter Email"
               required
-              name="UserName"
-              value={userInput.UserName}
+              name="Email"
+              value={userInput.Email}
               onChange={handleUserInput}
             />
           </div>

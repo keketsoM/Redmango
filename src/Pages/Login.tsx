@@ -14,7 +14,7 @@ function Login() {
   const [setUserLogin] = useLoginUserMutation();
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
-    UserName: "",
+    Email: "",
     Password: "",
   });
 
@@ -28,7 +28,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     const response: apiResponse = await setUserLogin({
-      UserName: userInput.UserName,
+      UserName: userInput.Email,
       Password: userInput.Password,
     });
     if (response.data) {
@@ -55,10 +55,10 @@ function Login() {
             <input
               type="text"
               className="form-control"
-              placeholder="Enter Username"
+              placeholder="Enter Email"
               required
-              name="UserName"
-              value={userInput.UserName}
+              name="Email"
+              value={userInput.Email}
               onChange={handleUserInput}
             />
           </div>
