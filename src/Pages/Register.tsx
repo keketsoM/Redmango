@@ -28,7 +28,7 @@ function Register() {
     e.preventDefault();
     setLoading(true);
     const response: apiResponse = await setUserRegister({
-      UserName: userInput.Email,
+      Email: userInput.Email,
       Password: userInput.Password,
       Role: userInput.Role,
       Name: userInput.Name,

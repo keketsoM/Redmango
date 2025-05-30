@@ -24,25 +24,22 @@ function Login() {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-   
     e.preventDefault();
     setLoading(true);
     const response: apiResponse = await setUserLogin({
-      UserName: userInput.Email,
+      Email: userInput.Email,
       Password: userInput.Password,
     });
     if (response.data) {
-    
       const { token } = response.data.result!;
 
       const { unique_name, nameid, email, role }: userModel = jwt_decode(token);
-     
+
       localStorage.setItem("token", token);
       dispatch(setLoggedInUser({ unique_name, nameid, email, role }));
       navigate("/");
     } else if (response.error) {
-     
-      SetErrorMessage(response.error.data.errorMessage[0]);
+      SetErrorMessage(response.error.data.errorList[0]);
     }
     setLoading(false);
   };
