@@ -4,6 +4,8 @@ const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://keketsom-001-site1.anytempurl.com/api/",
+    // "https://keketsom-001-site1.anytempurl.com/api/"
+    // "https://localhost:44344/api/"
   }),
 
   endpoints: (builder) => ({
