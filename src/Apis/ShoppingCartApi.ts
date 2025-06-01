@@ -3,6 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const shoppingCartApi = createApi({
   reducerPath: "shoppingCartApi",
   baseQuery: fetchBaseQuery({
+    // "https://localhost:44344/api/"
+    // "https://keketsom-001-site1.anytempurl.com/api/"
     baseUrl: "https://keketsom-001-site1.anytempurl.com/api/",
     prepareHeaders: (headers: Headers, api) => {
       const token = localStorage.getItem("token");
