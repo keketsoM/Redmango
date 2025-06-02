@@ -20,16 +20,16 @@ function OrderList({ isLoading, orderData }: OrderListProps) {
               <div className="col-2 d-none d-md-block d-lg-block d-xl-block">
                 Phone
               </div>
-              <div className="col-1">Total</div>
+              <div className="col-2">Total</div>
               <div className="col-1">Items</div>
-              <div className="col-2">Date</div>
+              <div className="col-lg-1 col-md-1 col-2 ">Date</div>
               <div className="col-2">Status</div>
               <div className="col-1"></div>
             </div>
             {orderData.map((orderItem: OrderHeaderModel) => {
               const badgeColor = getStatusColour(orderItem.status!);
               return (
-                <div className="row border" key={orderItem.orderHeaderId}>
+                <div className="row border p-0" key={orderItem.orderHeaderId}>
                   <div className="col-1 d-none d-md-block d-lg-block d-xl-block">
                     {orderItem.orderHeaderId}
                   </div>
@@ -37,11 +37,11 @@ function OrderList({ isLoading, orderData }: OrderListProps) {
                   <div className="col-2 d-none d-md-block d-lg-block d-xl-block">
                     {orderItem.pickupPhoneNumber}
                   </div>
-                  <div className="col-1 ">
+                  <div className="col-2">
                     $ {orderItem.orderTotal?.toFixed(2)}
                   </div>
                   <div className="col-1">{orderItem.totalItems}</div>
-                  <div className="col-2">
+                  <div className="col-lg-1 col-md-1 col-2 ">
                     {new Date(orderItem.orderDate!).toLocaleDateString()}
                   </div>
                   <div className="col-2">
