@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const orderApi = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({
-     // "https://keketsom-001-site1.anytempurl.com/api/"
+    // "https://keketsom-001-site1.anytempurl.com/api/"
     // "https://localhost:44344/api/"
     baseUrl: "https://keketsom-001-site1.anytempurl.com/api/",
     prepareHeaders: (headers: Headers, api) => {
@@ -50,6 +50,7 @@ const orderApi = createApi({
           orderHeaderId: orderHeaderId,
         },
       }),
+
       providesTags: ["Orders"],
     }),
     CreateOrder: builder.mutation({

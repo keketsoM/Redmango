@@ -78,7 +78,7 @@ function OrderSummary({ data, userInput }: OrderSummaryProps) {
                         <div className="d-flex w-100 justify-content-between">
                           <p>{cartItems.menuItem?.name}</p>
                           <p>
-                            ${cartItems.menuItem?.price} x ${cartItems.quantity}
+                            ${cartItems.menuItem?.price} x {cartItems.quantity}
                           </p>
                         </div>
                         <p style={{ width: "70px", textAlign: "right" }}>
