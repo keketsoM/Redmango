@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useLoginUserMutation } from "../Apis/authApi";
 import { MiniLoader } from "../Components/Page/Common";
 import inputHelper from "../Helper/inputHelper";
+import toastNotify from "../Helper/toastNotify";
 import { apiResponse, userModel } from "../Interface";
 import { setLoggedInUser } from "../Storage/Redux/userAuthSlice";
 function Login() {
@@ -37,8 +38,10 @@ function Login() {
 
       localStorage.setItem("token", token);
       dispatch(setLoggedInUser({ unique_name, nameid, email, role }));
+      toastNotify("Logged in successfully.");
       navigate("/");
     } else if (response.error) {
+      toastNotify(response.error.data.errorList[0], "error");
       SetErrorMessage(response.error.data.errorList[0]);
     }
     setLoading(false);

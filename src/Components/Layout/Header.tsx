@@ -145,8 +145,7 @@ function Header() {
                       <button
                         style={{
                           border: "none",
-                          height: "40px",
-                          width: "100px",
+                          
                         }}
                         className="btn btn-success btn-outline rounded-pill text-white mx-2"
                         onClick={handleLogout}
@@ -167,8 +166,7 @@ function Header() {
                       <NavLink
                         style={{
                           border: "none",
-                          height: "40px",
-                          width: "100px",
+                         
                         }}
                         className="btn btn-success btn-outline rounded-pill text-white mx-2"
                         to="/login"
